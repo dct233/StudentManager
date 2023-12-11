@@ -21,7 +21,7 @@ public class LoginButtonListener {
                     super.getUsername().getText(),
                     super.getPassword().getText()
             );
-            loginBehavior.login();
+            loginBehavior.startLogin();
         }
     }
     static class LoginKeyListener extends LoginButtonAdapter {
@@ -36,7 +36,7 @@ public class LoginButtonListener {
                         super.getUsername().getText(),
                         super.getPassword().getText()
                 );
-                loginBehavior.login();
+                loginBehavior.startLogin();
             }
         }
     }

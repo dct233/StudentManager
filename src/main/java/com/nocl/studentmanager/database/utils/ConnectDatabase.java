@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 
+// 提供数据库服务
 public class ConnectDatabase {
     private static final SqlSessionFactory sqlSessionFactory;
 
