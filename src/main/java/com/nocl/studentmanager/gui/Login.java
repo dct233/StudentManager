@@ -6,15 +6,22 @@ import javax.swing.*;
 public class Login {
     public Login() {
         // 点击登录按钮监听
-        loginButton.addMouseListener(new LoginButtonListener().getMouseListener());
+        loginButton.addMouseListener(new LoginButtonListener(textField1, passwordField1).getMouseListener());
         // 为登录界面三个控件提供回车登录事件监听
-        loginButton.addKeyListener(new LoginButtonListener().getKeyListener());
-        textField1.addKeyListener(new LoginButtonListener().getKeyListener());
-        passwordField1.addKeyListener(new LoginButtonListener().getKeyListener());
+        loginButton.addKeyListener(new LoginButtonListener(textField1, passwordField1).getKeyListener());
+        textField1.addKeyListener(new LoginButtonListener(textField1, passwordField1).getKeyListener());
+        passwordField1.addKeyListener(new LoginButtonListener(textField1, passwordField1).getKeyListener());
     }
 
     public JPanel getRoot() {
         return root;
+    }
+    public JTextField getTextField1() {
+        return textField1;
+    }
+
+    public JPasswordField getPasswordField1() {
+        return passwordField1;
     }
 
     private JPanel root;

@@ -2,6 +2,7 @@ package com.nocl.studentmanager;
 
 import com.nocl.studentmanager.gui.Login;
 import com.nocl.studentmanager.listener.LoginButtonListener;
+import com.nocl.studentmanager.utils.LoginBehavior;
 
 import javax.swing.*;
 
