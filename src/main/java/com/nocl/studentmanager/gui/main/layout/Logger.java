@@ -9,7 +9,6 @@ import java.awt.*;
 public class Logger extends JPanel {
     private final GridBagConstraints gbc;
 
-    private Appender
 
     public Logger() {
         this.setBackground(new Color(46, 46, 46));
