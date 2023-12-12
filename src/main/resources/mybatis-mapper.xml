@@ -6,4 +6,8 @@
     <select id="getAccount" resultType="com.nocl.studentmanager.database.bean.Account">
         select * from Account where Username = #{Username} AND Password = #{Password}
     </select>
+    <insert id="registerAccount" parameterType="com.nocl.studentmanager.database.bean.Account">
+        insert into Account (Username, Password, admin)
+        values (#{Username}, #{Password}, #{admin});
+    </insert>
 </mapper>

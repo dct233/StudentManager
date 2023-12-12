@@ -8,4 +8,9 @@ public interface AccountDAO {
             @Param("Username") String Username,
             @Param("Password") String Password
     );
+    int registerAccount(
+            @Param("Username") String Username,
+            @Param("Password") String Password,
+            @Param("admin") String admin
+    );
 }
