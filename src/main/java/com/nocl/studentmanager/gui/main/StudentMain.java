@@ -7,6 +7,16 @@ import java.awt.*;
 
 public class StudentMain {
     private JPanel Panel;
+    // 顶栏容器
+    public static TopMenu topMenu = new TopMenu();
+    // 左侧边栏
+    public static LeftMenu leftMenu = new LeftMenu();
+    // 表格区域
+    public static StudentXLS studentXLS = new StudentXLS();
+    // 右中区域
+    public static UtilsMenu utilsMenu = new UtilsMenu();
+    // Log区域
+    public static Logger logger = new Logger();
 
     public StudentMain() {
         GridBagLayout gridBagLayout = new GridBagLayout();
@@ -18,17 +28,6 @@ public class StudentMain {
     }
 
     public JPanel InitMainPanel() {
-        // 顶栏容器
-        TopMenu topMenu = new TopMenu();
-        // 左侧边栏
-        LeftMenu leftMenu = new LeftMenu();
-        // 表格区域
-        StudentXLS studentXLS = new StudentXLS();
-        // 右中区域
-        UtilsMenu utilsMenu = new UtilsMenu();
-        // Log区域
-        Logger logger = new Logger();
-
         Panel.add(topMenu, topMenu.getGbc());
         Panel.add(leftMenu, leftMenu.getGbc());
         Panel.add(studentXLS, studentXLS.getGbc());

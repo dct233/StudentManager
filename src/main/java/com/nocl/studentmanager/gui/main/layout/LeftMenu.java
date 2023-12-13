@@ -7,7 +7,7 @@ public class LeftMenu extends JPanel {
     private final GridBagConstraints gbc;
 
     public LeftMenu() {
-        this.setLayout(new GridBagLayout());
+        this.setLayout(null);
         this.setBackground(Color.CYAN);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 5, 0);

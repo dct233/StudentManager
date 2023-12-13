@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+    <Appenders>
+        <SwingAppender name="SwingAppender">
+            <PatternLayout pattern="%d{HH:mm:ss} %-5level %n
+             %logger{36} - %msg%n" />
+        </SwingAppender>
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef ref="SwingAppender" />
+        </Root>
+    </Loggers>
+</Configuration>
