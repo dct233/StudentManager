@@ -2,8 +2,7 @@
 <Configuration status="DEBUG">
     <Appenders>
         <SwingAppender name="SwingAppender">
-            <PatternLayout pattern="%d{HH:mm:ss} %-5level %n
-             %logger{36} - %msg%n" />
+            <PatternLayout pattern="%d{HH:mm:ss} %-5level %logger{36} - %msg%n" />
         </SwingAppender>
     </Appenders>
     <Loggers>

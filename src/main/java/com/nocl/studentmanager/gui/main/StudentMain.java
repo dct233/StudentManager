@@ -1,18 +1,23 @@
 package com.nocl.studentmanager.gui.main;
 
+import com.nocl.studentmanager.database.dao.StudentInfoDAO;
+import com.nocl.studentmanager.database.utils.ConnectDatabase;
 import com.nocl.studentmanager.gui.main.layout.*;
+import org.apache.ibatis.session.SqlSession;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class StudentMain {
     private JPanel Panel;
+    public static SqlSession sqlSession = ConnectDatabase.getSqlSessionFactory();
+    public static StudentInfoDAO dao = sqlSession.getMapper(StudentInfoDAO.class);
+    // 表格区域
+    public static StudentXLS studentXLS = new StudentXLS();
     // 顶栏容器
     public static TopMenu topMenu = new TopMenu();
     // 左侧边栏
     public static LeftMenu leftMenu = new LeftMenu();
-    // 表格区域
-    public static StudentXLS studentXLS = new StudentXLS();
     // 右中区域
     public static UtilsMenu utilsMenu = new UtilsMenu();
     // Log区域

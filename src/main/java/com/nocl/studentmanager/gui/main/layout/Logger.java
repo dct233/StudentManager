@@ -43,7 +43,7 @@ public class Logger extends JPanel {
         log.setSize(200, 300);
         log.setForeground(Color.WHITE);
         log.setBackground(Color.GRAY);
-        log.setFont(new Font("Source Code Pro", Font.BOLD, 15));
+        log.setFont(new Font("微软雅黑", Font.BOLD, 15));
 
         JScrollPane scrollPane = new JScrollPane(log);
 

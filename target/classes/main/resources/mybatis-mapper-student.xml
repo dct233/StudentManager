@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nocl.studentmanager.database.dao.StudentInfoDAO">
+    <select id="getStudentInfo" resultType="com.nocl.studentmanager.database.bean.Student">
+        SELECT
+            Student.uid,
+            Student.name,
+            Student.age,
+            Student.gender,
+            Student.addr,
+            Academy.name as academy,
+            Specialized.name as specialized,
+            Student.studentClass
+        FROM Student
+                 JOIN Academy ON Student.academy = Academy.id
+                 JOIN Specialized ON Student.specialized = Specialized.id;
+
+    </select>
+    <insert id="insertStudent" parameterType="com.nocl.studentmanager.database.bean.Student">
+        insert into Student(name, age, gender, addr, academy, specialized, studentClass)
+                    VALUES (#Name, #Age, #Gender, #Addr, #Academy, #specialized, #studentClass)
+    </insert>
+    <select id="getAcademy" parameterType="java.lang.String">
+        select name from Academy
+    </select>
+</mapper>
