@@ -1,5 +1,7 @@
 package com.nocl.studentmanager.gui.main.ddl;
 
+import com.nocl.studentmanager.gui.main.ddl.listener.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -37,8 +39,12 @@ public class AddStudentInfo extends JDialog {
         initTitle();
         initAllInput();
         initAllComboBox();
-
-        initAddButton();
+        addButton = initAddButton();
+        ageInput.addKeyListener(new AgeInputListener());
+        academyComboBox.addItemListener(new AcademyComboBoxListener(this.specializedComboBox));
+        specializedComboBox.addItemListener(new SpecializedComboBoxListener(this.studentClassComboBox));
+        //specializedComboBox.getModel().addListDataListener(new SpecializedComboBoxDataListListener(studentClassComboBox));
+        studentClassComboBox.addItemListener(new StudentClassComboBoxListener(this.addButton));
     }
     private void initTitle() {
         title = new JLabel("添加学生信息");
@@ -122,15 +128,16 @@ public class AddStudentInfo extends JDialog {
         initLabel(label, labelAddr);
         try {
             // 初始化时添加空选项
-            data.add(0, null);
-
+            if (data.get(0) != null) {
+                data.add(0, null);
+            }
             comboBox = new JComboBox<>(data.toArray(String[]::new));
             comboBox.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 
             this.add(comboBox, comboBoxGbc);
         } catch (NullPointerException e) {
-            LOGGER.error(e);
-            LOGGER.error(label + "为空, 请先添加一个" + label + "组");
+            //LOGGER.error(e);
+            //LOGGER.error(label + "为空, 请先添加一个" + label + "组");
             comboBox = new JComboBox<>(new String[] {});
             this.add(comboBox, comboBoxGbc);
         }
@@ -139,6 +146,8 @@ public class AddStudentInfo extends JDialog {
     private JButton initAddButton() {
         JButton button = new JButton("添加");
         button.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+        button.addMouseListener(new AddButtonListener(this));
+        button.setEnabled(false);
 
         JPanel panel = new JPanel();
 
@@ -171,16 +180,53 @@ public class AddStudentInfo extends JDialog {
 
     private void initAcademyComboBox() {
         List<String> academyList = dao.getAcademy();
-        academyComboBox = initComboBox("学院", null, new int[] {0, 5, 2, 1}, new int[] {2, 5, 2, 1});
+        academyComboBox = initComboBox("学院", academyList, new int[] {0, 5, 2, 1}, new int[] {2, 5, 2, 1});
         //academyComboBox.setEnabled(false);
     }
 
     private void initSpecializedComboBox() {
-        List<String> specializedList = new ArrayList<>();
-        specializedComboBox = initComboBox("专业", null, new int[] {0, 6 ,2 ,1},  new int[] {2, 6, 2, 1});
+        // 偷懒了, 通过往头列表添加null可以少写一个监听器
+        List<String> NULL = new ArrayList<>() {{
+            add(null);
+        }};
+        specializedComboBox = initComboBox("专业", NULL, new int[] {0, 6 ,2 ,1},  new int[] {2, 6, 2, 1});
+        specializedComboBox.setEnabled(false);
     }
 
     private void initStudentClassComboBox() {
-        studentClassComboBox = initComboBox("班级", null, new int[] {0, 7, 2, 1}, new int[] {2, 7, 2 , 1});
+        List<String> NULL = new ArrayList<>() {{
+            add(null);
+        }};
+        studentClassComboBox = initComboBox("班级", NULL, new int[] {0, 7, 2, 1}, new int[] {2, 7, 2 , 1});
+        //studentClassComboBox.setModel(new DefaultComboBoxModel<>(new String[] {null ,"test"}));
+        studentClassComboBox.setEnabled(false);
+    }
+
+    public JTextField getNameInput() {
+        return nameInput;
+    }
+
+    public JTextField getAgeInput() {
+        return ageInput;
+    }
+
+    public JTextField getAddrInput() {
+        return addrInput;
+    }
+
+    public JComboBox<String> getGenderComboBox() {
+        return genderComboBox;
+    }
+
+    public JComboBox<String> getAcademyComboBox() {
+        return academyComboBox;
+    }
+
+    public JComboBox<String> getSpecializedComboBox() {
+        return specializedComboBox;
+    }
+
+    public JComboBox<String> getStudentClassComboBox() {
+        return studentClassComboBox;
     }
 }

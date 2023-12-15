@@ -3,6 +3,7 @@ package com.nocl.studentmanager.gui.main.layout;
 import com.nocl.studentmanager.database.bean.Student;
 import com.nocl.studentmanager.database.dao.StudentInfoDAO;
 import com.nocl.studentmanager.database.utils.ConnectDatabase;
+import com.nocl.studentmanager.gui.main.utils.StudentXLSUtils;
 import org.apache.ibatis.session.SqlSession;
 
 import java.awt.event.ItemEvent;
@@ -20,9 +21,7 @@ import static com.nocl.studentmanager.gui.main.StudentMain.dao;
 public class StudentXLS extends JPanel {
     private final GridBagConstraints gbc;
     private JTable studentTable;
-
     private DefaultTableModel model;
-
 
     public StudentXLS() {
         this.setBackground(Color.BLACK);
@@ -44,21 +43,7 @@ public class StudentXLS extends JPanel {
         initStudentTable();
     }
     private void initStudentTable() {
-        List<Student> studentList = dao.getStudentInfo();
-
-        Object[][] objects = new Object[studentList.size()][];
-        for (int i = 0; i < studentList.size(); i++) {
-            objects[i] = studentList.get(i).toObject();
-        }
-
-        //studentTable = new JTable(30, 5);
-        // object为数据, String数组为表头
-
-        String[] headerTitle = {"学号", "姓名", "年龄", "性别", "地址", "学院", "专业", "班级"};
-        List<String> academy = dao.getAcademy();
-        // 更改表格Model
-        model = new DefaultTableModel(objects, headerTitle);
-        model.addRow(new Object[] {});
+        model = StudentXLSUtils.setStudentTable();
         // 设置表格Model
         studentTable = new JTable(model);
         studentTable.setFont(new Font("微软雅黑", Font.PLAIN, 14));
@@ -79,7 +64,6 @@ public class StudentXLS extends JPanel {
         layout.gridheight = 1;
 
         this.add(scrollPane, layout);
-        model.addRow(new Object[] {});
     }
 
     public GridBagConstraints getGbc() {
@@ -88,5 +72,9 @@ public class StudentXLS extends JPanel {
 
     public DefaultTableModel getModel() {
         return model;
+    }
+
+    public void setModel(DefaultTableModel model) {
+        studentTable.setModel(model);
     }
 }

@@ -1,7 +1,9 @@
 package com.nocl.studentmanager.gui.main;
 
+import com.nocl.studentmanager.Main;
 import com.nocl.studentmanager.database.dao.StudentInfoDAO;
 import com.nocl.studentmanager.database.utils.ConnectDatabase;
+import com.nocl.studentmanager.gui.main.ddl.AddStudentInfo;
 import com.nocl.studentmanager.gui.main.layout.*;
 import org.apache.ibatis.session.SqlSession;
 

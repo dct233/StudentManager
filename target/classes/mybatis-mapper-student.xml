@@ -12,17 +12,31 @@
             Student.addr,
             Academy.name as academy,
             Specialized.name as specialized,
-            Student.studentClass
+            StudentClass.name as studentClass
         FROM Student
                  JOIN Academy ON Student.academy = Academy.id
-                 JOIN Specialized ON Student.specialized = Specialized.id;
+                 JOIN Specialized ON Student.specialized = Specialized.id
+                 JOIN StudentClass ON Student.studentClass = StudentClass.id
+        order by Student.uid
 
     </select>
-    <insert id="insertStudent" parameterType="com.nocl.studentmanager.database.bean.Student">
-        insert into Student(name, age, gender, addr, academy, specialized, studentClass)
-                    VALUES (#Name, #Age, #Gender, #Addr, #Academy, #specialized, #studentClass)
+    <insert id="insertStudent" useGeneratedKeys="true">
+        insert into Student VALUES (null, '${Name}', '${Age}', '${Gender}', '${Addr}', (select id from Academy where `name` = '${Academy}'), (select id from Specialized where `name` = '${Specialized}'), (select id from StudentClass where `name` = '${StudentClass}'))
     </insert>
     <select id="getAcademy" parameterType="java.lang.String">
         select name from Academy
     </select>
+    <select id="getSpecialized" parameterType="java.lang.String">
+        select Specialized.name from Specialized
+            join Academy on Specialized.academyId = Academy.id
+            where Academy.name = #{name}
+    </select>
+    <select id="getStudentClass" parameterType="java.lang.String">
+        select StudentClass.name from StudentClass
+            join Specialized on StudentClass.specializedId = Specialized.id
+            where Specialized.name = #{name}
+    </select>
+    <insert id="getAcademyId" parameterType="java.lang.Integer">
+        insert into test VALUES (${name})
+    </insert>
 </mapper>

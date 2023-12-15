@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface StudentInfoDAO {
     List<Student> getStudentInfo();
-    int insertStudent(
+    void insertStudent(
             @Param("Name") String name,
             @Param("Age") Integer age,
             @Param("Gender") String gender,
@@ -16,5 +16,8 @@ public interface StudentInfoDAO {
             @Param("Specialized") String specialized,
             @Param("StudentClass") String studentClass
     );
+    List<String> getStudentClass(@Param("name") String name);
+    List<String> getSpecialized(@Param("name") String name);
     List<String> getAcademy();
+    void getAcademyId(@Param("name") int name);
 }
