@@ -19,16 +19,17 @@ public class LoginBehavior {
     }
 
     public void startLogin() {
-        if (login()) {
-            // TODO: 2023/12/12 登录成功后逻辑
+        if (searchAccount()) {
+            // 登录成功, 并关闭数据库连接
             JOptionPane.showMessageDialog(null, "登录成功", "TODO", JOptionPane.INFORMATION_MESSAGE);
             sqlSession.close();
         } else {
+            // 登录失败
             JOptionPane.showMessageDialog(null, "请检查你的用户名或密码", "登录失败", JOptionPane.WARNING_MESSAGE);
         }
     }
-
-    public boolean login() {
+    // 查询数据库账号以及密码
+    public boolean searchAccount() {
         return dao.getAccount(Username, Password) != null;
     }
 }

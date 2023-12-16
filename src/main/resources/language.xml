@@ -1,0 +1,6 @@
+<Dictionary prefix="StudentMain.TopMenu.menu" xmlns="http://weblookandfeel.com/Dictionary">
+    <record key="add">
+        <value lang="en">Add</value>
+        <value lang="zh">添加学生信息</value>
+    </record>
+</Dictionary>
