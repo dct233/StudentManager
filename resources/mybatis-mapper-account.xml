@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nocl.studentmanager.database.dao.AccountDAO">
+    <select id="getAccount" resultType="com.nocl.studentmanager.database.bean.Account">
+        select * from Account where Username = #{Username} AND Password = #{Password}
+    </select>
+    <insert id="registerAccount" parameterType="com.nocl.studentmanager.database.bean.Account">
+        insert into Account (Username, Password, admin)
+        values (#{Username}, #{Password}, #{admin});
+    </insert>
+</mapper>
