@@ -15,7 +15,7 @@ public class LeftMenu extends JPanel {
         layout.rowWeights = new double[] {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
         this.setLayout(layout);
 
-        this.setBackground(Color.CYAN);
+        //this.setBackground(Color.CYAN);
 
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 5, 0);

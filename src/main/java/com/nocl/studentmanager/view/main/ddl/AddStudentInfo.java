@@ -1,5 +1,6 @@
 package com.nocl.studentmanager.view.main.ddl;
 
+import com.nocl.studentmanager.Main;
 import com.nocl.studentmanager.view.main.ddl.listener.*;
 
 import javax.swing.*;
@@ -38,6 +39,7 @@ public class AddStudentInfo extends JDialog {
         initTitle();
         initAllInput();
         initAllComboBox();
+
         addButton = initAddButton();
         ageInput.addKeyListener(new AgeInputListener());
         academyComboBox.addItemListener(new AcademyComboBoxListener(this.specializedComboBox));

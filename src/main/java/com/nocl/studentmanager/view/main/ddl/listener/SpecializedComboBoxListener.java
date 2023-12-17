@@ -17,7 +17,11 @@ public class SpecializedComboBoxListener implements ItemListener {
     @Override
     public void itemStateChanged(ItemEvent e) {
         if (e.getItem() != null) {
-            Main.LOGGER.debug("触发事件了");
+            if (studentClassComboBox.getItemCount() > 1) {
+                studentClassComboBox.removeAllItems();
+                studentClassComboBox.setEnabled(false);
+                return;
+            }
             for (String item : dao.getStudentClass((String) e.getItem())) {
                 studentClassComboBox.addItem(item);
             }

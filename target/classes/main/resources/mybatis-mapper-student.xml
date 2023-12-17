@@ -36,7 +36,7 @@
             join Specialized on StudentClass.specializedId = Specialized.id
             where Specialized.name = #{name}
     </select>
-    <insert id="getAcademyId" parameterType="java.lang.Integer">
-        insert into test VALUES (${name})
-    </insert>
+    <select id="getStudentInfoCount" parameterType="java.lang.Integer">
+        select count(*) from Student
+    </select>
 </mapper>

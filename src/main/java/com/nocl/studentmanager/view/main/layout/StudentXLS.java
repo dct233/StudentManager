@@ -12,17 +12,17 @@ public class StudentXLS extends JPanel {
     private DefaultTableModel model;
 
     public StudentXLS() {
-        this.setBackground(Color.BLACK);
+        //this.setBackground(Color.BLACK);
         GridBagLayout layout = new GridBagLayout();
         layout.columnWidths = new int[1];
-        layout.rowHeights = new int[1];
-        layout.rowWeights = new double[] {1.0};
+        layout.rowHeights = new int[2];
+        layout.rowWeights = new double[] {0.8, 0.2};
         layout.columnWeights = new double[] {1.0};
         this.setLayout(layout);
 
         // 外部GBC
         gbc = new GridBagConstraints();
-        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -42,7 +42,7 @@ public class StudentXLS extends JPanel {
         studentTable.setTableHeader(studentTableHeader);
         /*studentTable.setTableHeader(studentTableHeader);*/
         JScrollPane scrollPane = new JScrollPane(studentTable);
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        //scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         GridBagConstraints layout = new GridBagConstraints();
         layout.insets = new Insets(1, 1, 0, 0);

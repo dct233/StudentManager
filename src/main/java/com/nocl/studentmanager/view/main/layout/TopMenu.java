@@ -8,6 +8,7 @@ import com.alee.managers.language.LanguageManager;
 import com.alee.managers.language.data.Dictionary;
 import com.alee.managers.notification.NotificationManager;
 import com.alee.managers.style.StyleId;
+import com.alee.utils.swing.menu.MenuBarGenerator;
 import com.alee.utils.swing.menu.PopupMenuGenerator;
 import com.nocl.studentmanager.Main;
 import com.nocl.studentmanager.view.main.StudentMain;
@@ -38,17 +39,32 @@ public class TopMenu extends JPanel {
         this.setBackground(new Color(64,84,180));
         // 外部布局设置
         gbc = new GridBagConstraints();
-        gbc.insets = new Insets(0, 5, 5, 0);
+        gbc.insets = new Insets(0, 0, 5, 0);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 3;
         gbc.gridheight = 1;
         // 初始化内部容器组件
-        initTabbedPane();
+        //initTabbedPane();
+        initMenuBar();
         initPopupMenu();
         //initMenuBar();
         //initTitle();
+    }
+    private void initMenuBar() {
+        MenuBarGenerator topMenu = new MenuBarGenerator();
+        topMenu.addItem("添加...", e -> menu.getMenu().showBelowMiddle((Component) e.getSource()));
+
+        GridBagConstraints buttonGbr = new GridBagConstraints();
+        buttonGbr.insets = new Insets(0, 0, 0,0);
+        buttonGbr.fill = GridBagConstraints.BOTH;
+        buttonGbr.gridx = 0;
+        buttonGbr.gridy = 0;
+        buttonGbr.gridheight = 1;
+        buttonGbr.gridwidth = 1;
+
+        this.add(topMenu.getMenu(), buttonGbr);
     }
     private void initTabbedPane() {
         JPanel panel = new JPanel(false);
@@ -101,7 +117,6 @@ public class TopMenu extends JPanel {
         menu.setIconSettings ( "resources/icons", ".png" );
         menu.setLanguagePrefix ( "StudentMain.TopMenu.menu" );
         menu.getMenu().setFont(new Font("微软雅黑", Font.BOLD, 15));
-
 
         menu.addItem ( "add16", "add", new ActionListener()
         {

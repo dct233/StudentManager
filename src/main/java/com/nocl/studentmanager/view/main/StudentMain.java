@@ -1,6 +1,5 @@
 package com.nocl.studentmanager.view.main;
 
-import com.nocl.studentmanager.Main;
 import com.nocl.studentmanager.database.dao.StudentInfoDAO;
 import com.nocl.studentmanager.database.utils.ConnectDatabase;
 import com.nocl.studentmanager.view.main.layout.*;
@@ -20,7 +19,7 @@ public class StudentMain {
     // 左侧边栏
     public LeftMenu leftMenu;
     // 右中区域
-    public UtilsMenu utilsMenu;
+    public BottomMenu utilsMenu;
     // Log区域
     public Logger logger;
 
@@ -30,7 +29,7 @@ public class StudentMain {
         studentXLS = new StudentXLS();
         topMenu = new TopMenu();
         leftMenu = new LeftMenu();
-        utilsMenu = new UtilsMenu();
+        utilsMenu = new BottomMenu();
         logger = new Logger();
 
         MainLayout = new GridBagLayout();
@@ -46,13 +45,13 @@ public class StudentMain {
     }
 
     public JLayeredPane InitMainPanel() {
-        JScrollPane scrollPane = new JScrollPane(topMenu);
+        //JScrollPane scrollPane = new JScrollPane(topMenu);
         JScrollPane scrollPane1 = new JScrollPane(leftMenu);
         JScrollPane scrollPane2 = new JScrollPane(studentXLS);
         JScrollPane scrollPane3 = new JScrollPane(utilsMenu);
         JScrollPane scrollPane4 = new JScrollPane(logger);
 
-        Panel.add(scrollPane, topMenu.getGbc(), JLayeredPane.PALETTE_LAYER);
+        Panel.add(topMenu, topMenu.getGbc(), JLayeredPane.PALETTE_LAYER);
         //Panel.add(new JPanel(), leftMenu.getGbc());
         Panel.add(scrollPane1, leftMenu.getGbc(), 1);
         Panel.add(scrollPane2, studentXLS.getGbc(), 2);

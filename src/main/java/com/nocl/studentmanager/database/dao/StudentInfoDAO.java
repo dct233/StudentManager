@@ -19,5 +19,6 @@ public interface StudentInfoDAO {
     List<String> getStudentClass(@Param("name") String name);
     List<String> getSpecialized(@Param("name") String name);
     List<String> getAcademy();
-    void getAcademyId(@Param("name") int name);
+    // 获取整个表数据长度
+    Integer getStudentInfoCount();
 }
