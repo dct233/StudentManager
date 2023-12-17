@@ -1,37 +1,24 @@
 package com.nocl.studentmanager.view.main.layout;
 
-import com.alee.api.resource.ClassResource;
-import com.alee.laf.button.WebButton;
-import com.alee.laf.tabbedpane.WebTabbedPane;
-import com.alee.managers.hotkey.Hotkey;
-import com.alee.managers.language.LanguageManager;
-import com.alee.managers.language.data.Dictionary;
-import com.alee.managers.notification.NotificationManager;
-import com.alee.managers.style.StyleId;
 import com.alee.utils.swing.menu.MenuBarGenerator;
 import com.alee.utils.swing.menu.PopupMenuGenerator;
 import com.nocl.studentmanager.Main;
-import com.nocl.studentmanager.view.main.StudentMain;
 import com.nocl.studentmanager.view.main.ddl.AddStudentInfo;
-import com.nocl.studentmanager.view.main.listener.TopMenuListener;
 
 import javax.swing.*;
-import javax.swing.text.Style;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class TopMenu extends JPanel {
     private final GridBagConstraints gbc;
     private PopupMenuGenerator menu;
-    private JMenu info;
-    private JMenu operate;
+    // private JMenu info;
+    // private JMenu operate;
 
     public TopMenu() {
         // 容器内布局设置
         GridBagLayout layout = new GridBagLayout();
         layout.columnWidths = new int[1];
-        layout.rowHeights = new int[1];
+        layout.rowHeights = new int[2];
         layout.columnWeights = new double[] {1.0};
         layout.rowWeights = new double[] {1.0};
         this.setLayout(layout);
@@ -49,8 +36,10 @@ public class TopMenu extends JPanel {
         //initTabbedPane();
         initMenuBar();
         initPopupMenu();
-        //initMenuBar();
-        //initTitle();
+        /*
+        initMenuBar();
+        initTitle();
+        */
     }
     private void initMenuBar() {
         MenuBarGenerator topMenu = new MenuBarGenerator();
@@ -64,9 +53,23 @@ public class TopMenu extends JPanel {
         buttonGbr.gridheight = 1;
         buttonGbr.gridwidth = 1;
 
+        MenuBarGenerator test = new MenuBarGenerator();
+        test.addItem("exit", null);
+
+        GridBagConstraints exitGbc = new GridBagConstraints();
+        exitGbc.insets = new Insets(0, 0, 0,0);
+        exitGbc.fill = GridBagConstraints.BOTH;
+        exitGbc.gridx = 1;
+        exitGbc.gridy = 0;
+        exitGbc.gridheight = 1;
+        exitGbc.gridwidth = 2;
+
+        this.add(test.getMenu(), exitGbc);
+
         this.add(topMenu.getMenu(), buttonGbr);
     }
-    private void initTabbedPane() {
+    // 第三版菜单栏
+    /*private void initTabbedPane() {
         JPanel panel = new JPanel(false);
 
         GridBagLayout layout = new GridBagLayout();
@@ -108,9 +111,9 @@ public class TopMenu extends JPanel {
         panelGbc.gridy = 0;
         panelGbc.gridheight = 1;
         panelGbc.gridwidth = 1;
-        
+
         this.add(panel, panelGbc);
-    }
+    }*/
     // 利用 Weblaf 快速创建菜单栏
     private void initPopupMenu() {
         menu = new PopupMenuGenerator();
@@ -118,18 +121,13 @@ public class TopMenu extends JPanel {
         menu.setLanguagePrefix ( "StudentMain.TopMenu.menu" );
         menu.getMenu().setFont(new Font("微软雅黑", Font.BOLD, 15));
 
-        menu.addItem ( "add16", "add", new ActionListener()
-        {
-            @Override
-            public void actionPerformed ( final ActionEvent e )
-            {
-                AddStudentInfo addStudentInfo = new AddStudentInfo(Main.frame);
-                addStudentInfo.setLocationRelativeTo(Main.frame);
-                addStudentInfo.setModal(true);
-                addStudentInfo.setVisible(true);
-                /*NotificationManager.showNotification ( "StudentMain.TopMenu.menu.add" );*/
-            }
-        } );
+        menu.addItem ( "add16", "add", e -> {
+            AddStudentInfo addStudentInfo = new AddStudentInfo(Main.frame);
+            addStudentInfo.setLocationRelativeTo(Main.frame);
+            addStudentInfo.setModal(true);
+            addStudentInfo.setVisible(true);
+            /*NotificationManager.showNotification ( "StudentMain.TopMenu.menu.add" );*/
+        });
     }
     // 第二版菜单栏
     /*private void initTabbedPane() {
@@ -220,23 +218,6 @@ public class TopMenu extends JPanel {
 
         this.add(panel, menuGbc);
     }*/
-
-
-    private void initTitle() {
-        JLabel title = new JLabel("学生管理系统");
-        title.setForeground(Color.WHITE);
-        title.setFont(new Font("微软雅黑", Font.BOLD, 18));
-
-        GridBagConstraints titleGbc = new GridBagConstraints();
-        titleGbc.insets = new Insets(0 , 10, 0 ,0);
-        titleGbc.fill = GridBagConstraints.BOTH;
-        titleGbc.gridx = 0;
-        titleGbc.gridy = 1;
-        titleGbc.gridheight = 1;
-        titleGbc.gridwidth = 1;
-
-        this.add(title, titleGbc);
-    }
 
     public GridBagConstraints getGbc() {
         return gbc;

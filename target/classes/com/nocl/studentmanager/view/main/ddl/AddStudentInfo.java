@@ -19,25 +19,26 @@ public class AddStudentInfo extends JDialog {
     private JComboBox<String> academyComboBox;
     private JComboBox<String> specializedComboBox;
     private JComboBox<String> studentClassComboBox;
+    private JButton addButton;
 
     public AddStudentInfo(JFrame frame) {
         super(frame, "添加");
         GridBagLayout layout = new GridBagLayout();
         layout.columnWidths = new int[4];
-        layout.rowHeights = new int[9];
-        layout.columnWeights = new double[] {0.25, 0.15, 0.35, 0.25};
-        layout.rowWeights = new double[] {0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.125};
+        layout.rowHeights = new int[8];
+        layout.columnWeights = new double[] {0.01, 0.15, 0.35, 0.25};
+        layout.rowWeights = new double[] {0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01};
 
         mainPanel = new JPanel(layout);
         this.setContentPane(mainPanel);
         // 设置对话框的大小
-        this.setSize(320, 480);
+        this.setSize(280, 480);
         //this.setLayout(layout);
         initTitle();
         initAllInput();
         initAllComboBox();
 
-        JButton addButton = initAddButton();
+        addButton = initAddButton();
         ageInput.addKeyListener(new AgeInputListener());
         academyComboBox.addItemListener(new AcademyComboBoxListener(this.specializedComboBox));
         specializedComboBox.addItemListener(new SpecializedComboBoxListener(this.studentClassComboBox));
@@ -56,7 +57,7 @@ public class AddStudentInfo extends JDialog {
 
         GridBagConstraints titleGbc = new GridBagConstraints();
         titleGbc.fill = GridBagConstraints.BOTH;
-        titleGbc.insets = new Insets(0, 0, 0, 0);
+        titleGbc.insets = new Insets(0, 40, 0, 0);
         //titleGbc.anchor = GridBagConstraints.CENTER;
         titleGbc.gridx = 1;
         titleGbc.gridy = 0;
@@ -73,9 +74,9 @@ public class AddStudentInfo extends JDialog {
     }
 
     private void initAllInput() {
-        nameInput = InitComponent.initInput("姓名", new int[] {0, 1, 2, 1}, new int[] {2, 1, 2, 1}, mainPanel);
-        ageInput = InitComponent.initInput("年龄", new int[] {0, 2, 2, 1}, new int[] {2, 2, 2, 1}, mainPanel);
-        addrInput = InitComponent.initInput("地址", new int[] {0, 4, 2, 1}, new int[] {2, 4, 2, 1}, mainPanel);
+        nameInput = InitComponent.initInput("姓名", new int[] {0, 1, 2, 1}, new int[] {2, 1, 2, 1}, GridBagConstraints.BOTH, mainPanel);
+        ageInput = InitComponent.initInput("年龄", new int[] {0, 2, 2, 1}, new int[] {2, 2, 2, 1}, GridBagConstraints.BOTH, mainPanel);
+        addrInput = InitComponent.initInput("地址", new int[] {0, 4, 2, 1}, new int[] {2, 4, 2, 1}, GridBagConstraints.BOTH, mainPanel);
     }
 
     private JButton initAddButton() {
@@ -90,9 +91,9 @@ public class AddStudentInfo extends JDialog {
 
         GridBagConstraints buttonGbc = new GridBagConstraints();
         buttonGbc.fill = GridBagConstraints.BOTH;
-        //buttonGbc.insets = new Insets(5, 0, 5, 5);
+        buttonGbc.insets = new Insets(0, 40, 0, 0);
         buttonGbc.gridx = 1;
-        buttonGbc.gridy = 9;
+        buttonGbc.gridy = 8;
         buttonGbc.gridwidth = 2;
         buttonGbc.gridheight = 1;
 
@@ -113,8 +114,7 @@ public class AddStudentInfo extends JDialog {
     }
 
     private void initAcademyComboBox() {
-        List<String> academyList = dao.getAcademy();
-        academyComboBox = InitComponent.initComboBox("学院", academyList, new int[] {0, 5, 2, 1}, new int[] {2, 5, 2, 1}, mainPanel);
+        academyComboBox = InitComponent.initComboBox("学院", dao.getAcademy(), new int[] {0, 5, 2, 1}, new int[] {2, 5, 2, 1}, mainPanel);
     }
 
     private void initSpecializedComboBox() {
@@ -161,5 +161,9 @@ public class AddStudentInfo extends JDialog {
 
     public JComboBox<String> getStudentClassComboBox() {
         return studentClassComboBox;
+    }
+
+    public JButton getAddButton() {
+        return addButton;
     }
 }

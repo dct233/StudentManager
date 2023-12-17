@@ -9,29 +9,30 @@ public class InitComponent {
         JLabel jLabel = new JLabel(label);
         jLabel.setFont(new Font("微软雅黑", Font.BOLD, 13));
 
-        GridBagConstraints labelGbc = new GridBagConstraints();
-        labelGbc.fill = GridBagConstraints.BOTH;
-        labelGbc.insets = new Insets(5, 0, 5, 5);
-        labelGbc.anchor = GridBagConstraints.LINE_END;
-        labelGbc.gridx = labelAddr[0];
-        labelGbc.gridy = labelAddr[1];
-        labelGbc.gridwidth = labelAddr[2];
-        labelGbc.gridheight = labelAddr[3];
+        GridBagConstraints labelPanelGbc = new GridBagConstraints();
+        labelPanelGbc.fill = GridBagConstraints.NONE;
+        labelPanelGbc.insets = new Insets(5, 0, 5, 25);
+        labelPanelGbc.anchor = GridBagConstraints.LINE_END;
+        labelPanelGbc.gridx = labelAddr[0];
+        labelPanelGbc.gridy = labelAddr[1];
+        labelPanelGbc.gridwidth = labelAddr[2];
+        labelPanelGbc.gridheight = labelAddr[3];
 
-        JPanel labelPanel = new JPanel();
-        labelPanel.add(jLabel);
+        /*JPanel labelPanel = new JPanel();
+        GridBagConstraints la = new GridBagConstraints();*/
+        /*labelPanel.add(jLabel);*/
 
-        parentPanel.add(labelPanel, labelGbc);
+        parentPanel.add(jLabel, labelPanelGbc);
 
         return jLabel;
     }
 
-    public static JTextField initInput(String label, int[] labelAddr, int[] inputAddr, JPanel parentPanel) {
+    public static JTextField initInput(String label, int[] labelAddr, int[] inputAddr, int fill, JPanel parentPanel) {
         JTextField textField = new JTextField();
         textField.setFont(new Font("微软雅黑", Font.BOLD, 13));
 
         GridBagConstraints textFieldGbc = new GridBagConstraints();
-        textFieldGbc.fill = GridBagConstraints.BOTH;
+        textFieldGbc.fill = fill;
         textFieldGbc.insets = new Insets(5, 0, 5, 5);
         textFieldGbc.gridx = inputAddr[0];
         textFieldGbc.gridy = inputAddr[1];
@@ -43,17 +44,30 @@ public class InitComponent {
 
         return textField;
     }
-
     public static JComboBox<String> initComboBox(String label, List<String> data, int[] labelAddr, int[] comboBoxAddr, JPanel parentPanel) {
+        return initComboBox(label, data, labelAddr, comboBoxAddr, new Insets(5, 0, 5, 5), parentPanel);
+    }
+    public static JComboBox<String> initComboBox(String label, List<String> data, int[] labelAddr, int[] comboBoxAddr, int fill, int anchor, JPanel parentPanel) {
+        return initComboBox(label, data, labelAddr, comboBoxAddr, fill, anchor, new Insets(5, 0, 5, 5),parentPanel);
+    }
+    public static JComboBox<String> initComboBox(String label, List<String> data, int[] labelAddr, int[] comboBoxAddr, int fill, JPanel parentPanel) {
+        return initComboBox(label, data, labelAddr, comboBoxAddr, fill, GridBagConstraints.CENTER, new Insets(5, 0, 5, 5), parentPanel);
+    }
+    public static JComboBox<String> initComboBox(String label, List<String> data, int[] labelAddr, int[] comboBoxAddr, Insets insets, JPanel parentPanel) {
+        return initComboBox(label, data, labelAddr, comboBoxAddr, GridBagConstraints.BOTH, GridBagConstraints.CENTER, insets, parentPanel);
+    }
+    public static JComboBox<String> initComboBox(String label, List<String> data, int[] labelAddr, int[] comboBoxAddr, int fill, int anchor, Insets insets, JPanel parentPanel) {
         JComboBox<String> comboBox;
 
         GridBagConstraints comboBoxGbc = new GridBagConstraints();
-        comboBoxGbc.fill = GridBagConstraints.BOTH;
-        comboBoxGbc.insets = new Insets(5, 0, 5, 5);
+        comboBoxGbc.fill = fill;
+        comboBoxGbc.insets = insets;
+        comboBoxGbc.anchor = anchor;
         comboBoxGbc.gridx = comboBoxAddr[0];
         comboBoxGbc.gridy = comboBoxAddr[1];
         comboBoxGbc.gridwidth = comboBoxAddr[2];
         comboBoxGbc.gridheight = comboBoxAddr[3];
+        comboBoxGbc.weighty = 0.01;
         initLabel(label, labelAddr, parentPanel);
         try {
             // 初始化时添加空选项

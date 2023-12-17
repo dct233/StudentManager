@@ -53,7 +53,18 @@ public class Main {
                 studentMain = new StudentMain();
                 frame.setContentPane(studentMain.InitMainPanel());
                 //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
                 frame.setVisible(true);
+                System.out.println(studentMain.utilsMenu.getHeight());
+                System.out.println(studentMain.utilsMenu.getWidth());
+
+                Dimension dimension = new Dimension(studentMain.utilsMenu.getWidth() / 5, studentMain.utilsMenu.getHeight() / 3);
+                studentMain.utilsMenu.getAcademyComboBox().setPreferredSize(dimension);
+                studentMain.utilsMenu.getGenderComboBox().setPreferredSize(dimension);
+                studentMain.utilsMenu.getSpecializedComboBox().setPreferredSize(dimension);
+                studentMain.utilsMenu.getStudentClassComboBox().setPreferredSize(dimension);
+                studentMain.utilsMenu.getNameInput().setPreferredSize(dimension);
+                studentMain.utilsMenu.getAgeInput().setPreferredSize(dimension);
             }
         });
 

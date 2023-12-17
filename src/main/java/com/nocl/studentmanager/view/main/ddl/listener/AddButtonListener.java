@@ -18,17 +18,19 @@ public class AddButtonListener extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
-        dao.insertStudent(
-                addStudentInfo.getNameInput().getText(),
-                Integer.valueOf(addStudentInfo.getAgeInput().getText()),
-                (String) addStudentInfo.getGenderComboBox().getSelectedItem(),
-                addStudentInfo.getAddrInput().getText(),
-                (String) addStudentInfo.getAcademyComboBox().getSelectedItem(),
-                (String) addStudentInfo.getSpecializedComboBox().getSelectedItem(),
-                (String) addStudentInfo.getStudentClassComboBox().getSelectedItem()
-        );
-        sqlSession.commit();
-        addStudentInfo.dispose();
-        Main.studentMain.studentXLS.setModel(StudentXLSUtils.setStudentTable());
+        if (addStudentInfo.getAddButton().isEnabled()) {
+            dao.insertStudent(
+                    addStudentInfo.getNameInput().getText(),
+                    Integer.valueOf(addStudentInfo.getAgeInput().getText()),
+                    (String) addStudentInfo.getGenderComboBox().getSelectedItem(),
+                    addStudentInfo.getAddrInput().getText(),
+                    (String) addStudentInfo.getAcademyComboBox().getSelectedItem(),
+                    (String) addStudentInfo.getSpecializedComboBox().getSelectedItem(),
+                    (String) addStudentInfo.getStudentClassComboBox().getSelectedItem()
+            );
+            sqlSession.commit();
+            addStudentInfo.dispose();
+            Main.studentMain.studentXLS.setModel(StudentXLSUtils.setStudentTable());
+        }
     }
 }

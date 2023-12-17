@@ -22,7 +22,7 @@ public class StudentXLS extends JPanel {
 
         // 外部GBC
         gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(0, 5, 5, 5);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -33,7 +33,7 @@ public class StudentXLS extends JPanel {
     private void initStudentTable() {
         model = StudentXLSUtils.setStudentTable();
         // 设置表格Model
-        studentTable = new JTable(model);
+        studentTable = new JTable(50, 8);
         studentTable.setFont(new Font("微软雅黑", Font.PLAIN, 14));
         studentTable.setRowHeight(25);
         // 设置表头样式
