@@ -1,16 +1,26 @@
 package com.nocl.studentmanager.view.main.layout;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.alee.laf.menu.WebMenuItem;
 import com.alee.utils.swing.menu.MenuBarGenerator;
 import com.alee.utils.swing.menu.PopupMenuGenerator;
 import com.nocl.studentmanager.Main;
 import com.nocl.studentmanager.view.main.ddl.AddStudentInfo;
+import jdk.jfr.Frequency;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+
+import static com.nocl.studentmanager.Main.frame;
+import static com.nocl.studentmanager.Main.studentMain;
 
 public class TopMenu extends JPanel {
     private final GridBagConstraints gbc;
     private PopupMenuGenerator menu;
+    private MenuBarGenerator topMenu;
     // private JMenu info;
     // private JMenu operate;
 
@@ -40,10 +50,46 @@ public class TopMenu extends JPanel {
         initMenuBar();
         initTitle();
         */
+
     }
+
     private void initMenuBar() {
-        MenuBarGenerator topMenu = new MenuBarGenerator();
-        topMenu.addItem("添加...", e -> menu.getMenu().showBelowMiddle((Component) e.getSource()));
+        topMenu = new MenuBarGenerator();
+        // 容器字号 中文: 12像素 字母: 7像素 符号(包括空格): 3像素
+        List<String> items = new ArrayList<>() {{
+            add("添加...");
+            add("退出系统");
+        }};
+
+        topMenu.addItem(items.get(0), e -> menu.getMenu().showBelowMiddle((Component) e.getSource()));
+        topMenu.addItem(items.get(1), null);
+        topMenu.getMenu().setForeground(new Color(63,81,181));
+
+        topMenu.getMenu().addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                int width = studentMain.topMenu.getWidth() ;
+                int space = topMenu.getMenu().getGraphics().getFontMetrics().charWidth(' ');
+                for (String item : items) {
+                    width -= topMenu.getMenu().getGraphics().getFontMetrics().stringWidth(item);
+                }
+                if (topMenu.getMenu().getComponentCount() != items.size()) {
+                    topMenu.getMenu().remove(topMenu.getMenu().getComponentCount() - 2);
+                }
+                topMenu.getMenu().add(new WebMenuItem(" ".repeat(width / space)) {{ setEnabled(false); }}, topMenu.getMenu().getComponentCount() - 1);
+                topMenu.getMenu().revalidate();
+            }
+        });
+
+        frame.addWindowStateListener(new WindowAdapter() {
+            @Override
+            public void windowStateChanged(WindowEvent e) {
+                super.windowStateChanged(e);
+                WebMenuItem component = (WebMenuItem) topMenu.getMenu().getComponent(topMenu.getMenu().getComponentCount() - 1);
+                component.doClick();
+            }
+        });
 
         GridBagConstraints buttonGbr = new GridBagConstraints();
         buttonGbr.insets = new Insets(0, 0, 0,0);
@@ -208,5 +254,9 @@ public class TopMenu extends JPanel {
 
     public GridBagConstraints getGbc() {
         return gbc;
+    }
+
+    public MenuBarGenerator getTopMenu() {
+        return topMenu;
     }
 }
