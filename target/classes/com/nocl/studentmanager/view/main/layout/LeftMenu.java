@@ -1,11 +1,19 @@
 package com.nocl.studentmanager.view.main.layout;
 
+import com.nocl.studentmanager.Main;
+import com.nocl.studentmanager.view.main.utils.StudentXLSUtils;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
 import java.awt.*;
+import java.util.Map;
 
 import static com.nocl.studentmanager.view.main.StudentMain.dao;
 
@@ -50,15 +58,74 @@ public class LeftMenu extends JPanel {
 
     private void initTree() {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
-        List<DefaultMutableTreeNode> academyTree = new ArrayList<>() {{
-            for (String item : dao.getAcademy()) {
-                add(new DefaultMutableTreeNode(item));
+        // 获取院校
+        List<String> academyList = dao.getAcademy();
+
+        Map<String, List<String>> specializedList = new HashMap<>();
+        Map<String, List<String>> studentClassList = new HashMap<>();
+
+        // 获取专业
+        for (String item : academyList) {
+            specializedList.put(item, dao.getSpecialized(item));
+        }
+        // 获取班级
+        for (List<String> items : specializedList.values()) {
+            for (String item : items) {
+                studentClassList.put(item, dao.getStudentClass(item));
             }
-        }};
+        }
+        /*List<DefaultMutableTreeNode> academyTree = new ArrayList<>() {{
+            for (Map.Entry<String, List<String>> entry : specializedList.entrySet()) {
+                // 根据学院名称创建出容器
+                DefaultMutableTreeNode childTree = new DefaultMutableTreeNode(entry.getKey());
+                for (Map.Entry<String, List<String>> studentEntry : studentClassList.entrySet()) {
+
+                    DefaultMutableTreeNode studentTree = new DefaultMutableTreeNode(studentEntry.getKey());
+                    childTree.add(studentTree);
+                    for (String item : studentEntry.getValue()) {
+                        studentTree.add(new DefaultMutableTreeNode(item));
+                    }
+                }
+                add(childTree);
+            }
+        }};*/
+        List<DefaultMutableTreeNode> academyTree = new ArrayList<>();
+
+        for (String academy : academyList) {
+            DefaultMutableTreeNode academyNode = new DefaultMutableTreeNode(academy);
+            academyTree.add(academyNode);
+
+            // 获取该学院下的专业列表
+            List<String> specializedListForAcademy = specializedList.get(academy);
+
+            // 遍历专业列表
+            for (String specialized : specializedListForAcademy) {
+                DefaultMutableTreeNode specializedNode = new DefaultMutableTreeNode(specialized);
+                academyNode.add(specializedNode);
+
+                // 获取该专业下的班级列表
+                List<String> studentClassListForSpecialized = studentClassList.get(specialized);
+
+                // 遍历班级列表
+                for (String studentClass : studentClassListForSpecialized) {
+                    DefaultMutableTreeNode studentClassNode = new DefaultMutableTreeNode(studentClass);
+                    specializedNode.add(studentClassNode);
+                }
+            }
+        }
+
         for (DefaultMutableTreeNode node : academyTree) {
             root.add(node);
         }
+
         tree = new JTree(root);
+
+        tree.addTreeSelectionListener(e -> {
+            if (e.getSource() == tree) {
+                DefaultMutableTreeNode dmt = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                Main.studentMain.studentXLS.setModel(StudentXLSUtils.setStudentTable(dao.getTreeList('%' + dmt.getUserObject().toString() + '%')));
+            }
+        });
 
         GridBagConstraints treeGbc = new GridBagConstraints();
         treeGbc.fill = GridBagConstraints.BOTH;

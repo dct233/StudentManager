@@ -41,6 +41,24 @@
         </where>
         order by Student.uid
     </select>
+    <select id="getTreeList" parameterType="com.nocl.studentmanager.database.bean.Student">
+        select * from (
+            SELECT
+                Student.uid,
+                Student.name,
+                Student.age,
+                Student.gender,
+                Student.addr,
+                Academy.name as academy,
+                Specialized.name as specialized,
+                StudentClass.name as studentClass
+            FROM Student
+                JOIN Academy ON Student.academy = Academy.id
+                JOIN Specialized ON Student.specialized = Specialized.id
+                JOIN StudentClass ON Student.studentClass = StudentClass.id) as temp
+        where CONCAT(academy,specialized,studentClass) LIKE #{name}
+        order by uid
+    </select>
     <insert id="insertStudent" useGeneratedKeys="true">
         insert into Student VALUES (null, '${Name}', '${Age}', '${Gender}', '${Addr}', (select id from Academy where `name` = '${Academy}'), (select id from Specialized where `name` = '${Specialized}'), (select id from StudentClass where `name` = '${StudentClass}'))
     </insert>

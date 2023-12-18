@@ -51,7 +51,8 @@ public class Main {
 
             frame = new JFrame("登录") {{
                 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                setSize(1280, 720);
+                setExtendedState(JFrame.MAXIMIZED_BOTH);
+                setSize(1600, 800);
             }};
 
             //frame.setContentPane(new Login().getRoot());

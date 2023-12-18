@@ -58,11 +58,15 @@ public class TopMenu extends JPanel {
         // 容器字号 中文: 12像素 字母: 7像素 符号(包括空格): 3像素
         List<String> items = new ArrayList<>() {{
             add("添加...");
+            add("删除...");
             add("退出系统");
         }};
-
+        // 添加
         topMenu.addItem(items.get(0), e -> menu.getMenu().showBelowMiddle((Component) e.getSource()));
-        topMenu.addItem(items.get(1), null);
+        // 删除选项
+        topMenu.addItem(items.get(1), false, null);
+        // 退出系统
+        topMenu.addItem(items.get(2), null);
         topMenu.getMenu().setForeground(new Color(63,81,181));
 
         topMenu.getMenu().addComponentListener(new ComponentAdapter() {

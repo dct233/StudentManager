@@ -29,6 +29,7 @@ public interface StudentInfoDAO {
     String getStudentClassOfSpecialized(@Param("name") String name);
     // 根据 班 到 院
     String getStudentClassOfAcademy(@Param("name") String name);
+    List<Student> getTreeList(@Param("name") String name);
     // 获取整个表数据长度
     Integer getStudentInfoCount();
 }
