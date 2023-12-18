@@ -123,6 +123,10 @@ public class LeftMenu extends JPanel {
         tree.addTreeSelectionListener(e -> {
             if (e.getSource() == tree) {
                 DefaultMutableTreeNode dmt = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                if (dmt.isRoot()) {
+                    Main.studentMain.studentXLS.setModel(StudentXLSUtils.setStudentTable(dao.getStudentInfo(null)));
+                    return;
+                }
                 Main.studentMain.studentXLS.setModel(StudentXLSUtils.setStudentTable(dao.getTreeList('%' + dmt.getUserObject().toString() + '%')));
             }
         });
