@@ -10,6 +10,10 @@ public class Student {
     private String specialized;
     private String studentClass;
 
+    public Student getStudent() {
+        return this;
+    }
+
     public String getUid() {
         return uid;
     }
@@ -68,6 +72,10 @@ public class Student {
 
     public String getStudentClass() {
         return studentClass;
+    }
+
+    public void setStudentClass(String studentClass) {
+        this.studentClass = studentClass;
     }
 
     @Override

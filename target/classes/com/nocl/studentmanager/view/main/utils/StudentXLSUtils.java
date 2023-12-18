@@ -8,8 +8,7 @@ import java.util.List;
 import static com.nocl.studentmanager.view.main.StudentMain.dao;
 
 public class StudentXLSUtils {
-    public static DefaultTableModel setStudentTable() {
-        List<Student> studentList = dao.getStudentInfo();
+    public static DefaultTableModel setStudentTable(List<Student> studentList) {
         String[] headerTitle = {"学号", "姓名", "年龄", "性别", "地址", "学院", "专业", "班级"};
 
         Object[][] objects = new Object[studentList.size()][];

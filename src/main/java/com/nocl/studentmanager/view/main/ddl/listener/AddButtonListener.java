@@ -30,7 +30,7 @@ public class AddButtonListener extends MouseAdapter {
             );
             sqlSession.commit();
             addStudentInfo.dispose();
-            Main.studentMain.studentXLS.setModel(StudentXLSUtils.setStudentTable());
+            Main.studentMain.studentXLS.setModel(StudentXLSUtils.setStudentTable(dao.getStudentInfo(null)));
         }
     }
 }

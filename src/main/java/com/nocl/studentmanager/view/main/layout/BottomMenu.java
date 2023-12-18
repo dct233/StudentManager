@@ -1,6 +1,11 @@
 package com.nocl.studentmanager.view.main.layout;
 
+import com.nocl.studentmanager.view.main.ddl.listener.SpecializedComboBoxListener;
+import com.nocl.studentmanager.view.main.listener.SearchAcademyComboBoxListener;
+import com.nocl.studentmanager.view.main.listener.SearchSpecializedComboBoxListener;
+import com.nocl.studentmanager.view.main.listener.SearchStudentClassComboBoxListener;
 import com.nocl.studentmanager.view.main.utils.InitComponent;
+import com.nocl.studentmanager.view.main.utils.SearchButtonListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,12 +63,17 @@ public class BottomMenu extends JPanel {
                 this
                 );
         academyComboBox = InitComponent.initComboBox("学院", dao.getAcademy(), new int[] {2, 1, 1, 1}, new int[] {3, 1, 1, 1}, GridBagConstraints.HORIZONTAL, this);
-        specializedComboBox = InitComponent.initComboBox("专业", null, new int[] {0, 2, 1, 1}, new int[] {1, 2, 1, 1}, GridBagConstraints.HORIZONTAL, this);
-        studentClassComboBox = InitComponent.initComboBox("班级", null, new int[] {2, 2, 1, 1}, new int[] {3, 2, 1, 1}, GridBagConstraints.HORIZONTAL, this);
-        genderComboBox.setSize(10, 30);
+        specializedComboBox = InitComponent.initComboBox("专业", dao.getAllSpecialized(), new int[] {0, 2, 1, 1}, new int[] {1, 2, 1, 1}, GridBagConstraints.HORIZONTAL, this);
+        studentClassComboBox = InitComponent.initComboBox("班级", dao.getAllStudentClass(), new int[] {2, 2, 1, 1}, new int[] {3, 2, 1, 1}, GridBagConstraints.HORIZONTAL, this);
+
+        academyComboBox.addItemListener(new SearchAcademyComboBoxListener(specializedComboBox, studentClassComboBox));
+        specializedComboBox.addItemListener(new SearchSpecializedComboBoxListener(academyComboBox, studentClassComboBox));
+        studentClassComboBox.addItemListener(new SearchStudentClassComboBoxListener(academyComboBox, specializedComboBox));
     }
     private void initSearchButton() {
         searchButton = new JButton("查询");
+
+        searchButton.addMouseListener(new SearchButtonListener());
 
         GridBagConstraints searchButtonGbc = new GridBagConstraints();
         searchButtonGbc.anchor = GridBagConstraints.CENTER;

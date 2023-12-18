@@ -40,8 +40,8 @@ public class AddStudentInfo extends JDialog {
 
         addButton = initAddButton();
         ageInput.addKeyListener(new AgeInputListener());
-        academyComboBox.addItemListener(new AcademyComboBoxListener(this.specializedComboBox));
-        specializedComboBox.addItemListener(new SpecializedComboBoxListener(this.studentClassComboBox));
+        academyComboBox.addItemListener(new AcademyComboBoxListener(this.specializedComboBox, false));
+        specializedComboBox.addItemListener(new SpecializedComboBoxListener(this.studentClassComboBox, false));
         //specializedComboBox.getModel().addListDataListener(new SpecializedComboBoxDataListListener(studentClassComboBox));
         studentClassComboBox.addItemListener(new StudentClassComboBoxListener(addButton));
     }

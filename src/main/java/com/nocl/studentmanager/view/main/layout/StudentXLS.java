@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 
+import static com.nocl.studentmanager.view.main.StudentMain.dao;
+
 public class StudentXLS extends JPanel {
     private final GridBagConstraints gbc;
     private JTable studentTable;
@@ -31,9 +33,9 @@ public class StudentXLS extends JPanel {
         initStudentTable();
     }
     private void initStudentTable() {
-        model = StudentXLSUtils.setStudentTable();
+        model = StudentXLSUtils.setStudentTable(dao.getStudentInfo(null));
         // 设置表格Model
-        studentTable = new JTable(50, 8);
+        studentTable = new JTable(model);
         studentTable.setFont(new Font("微软雅黑", Font.PLAIN, 14));
         studentTable.setRowHeight(25);
         // 设置表头样式

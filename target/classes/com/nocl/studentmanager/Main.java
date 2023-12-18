@@ -24,10 +24,7 @@ import java.util.Locale;
 
 public class Main {
     public static final Logger LOGGER = LogManager.getLogger(Main.class);
-    public static JFrame frame = new JFrame("登录") {{
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1280, 720);
-    }};
+    public static JFrame frame;
     public static StudentMain studentMain;
 
     public static void initGobalFont(Font font) {
@@ -51,6 +48,11 @@ public class Main {
                     new ClassResource( Main.class, "resources/language.xml" )
             ) );
             initGobalFont(new Font("微软雅黑", Font.PLAIN, 15));
+
+            frame = new JFrame("登录") {{
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                setSize(1280, 720);
+            }};
 
             //frame.setContentPane(new Login().getRoot());
             studentMain = new StudentMain();
