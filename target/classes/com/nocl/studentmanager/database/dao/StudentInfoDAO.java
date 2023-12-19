@@ -1,5 +1,6 @@
 package com.nocl.studentmanager.database.dao;
 
+import com.alee.managers.animation.easing.Back;
 import com.nocl.studentmanager.database.bean.Student;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,6 +31,18 @@ public interface StudentInfoDAO {
     // 根据 班 到 院
     String getStudentClassOfAcademy(@Param("name") String name);
     List<Student> getTreeList(@Param("name") String name);
+    // 删除数据
+    void deleteStudentInfo(@Param("uid") Integer uid);
+    void updateStudentAcademy(@Param("uid") Integer uid, @Param("academyName") Integer academy);
+    void updateStudentSpecialized(@Param("uid") Integer uid, @Param("specializedName") Integer specialized);
+    void updateStudentClass(@Param("uid") Integer uid, @Param("studentClassName") Integer studentClass);
+    void updateStudentName(@Param("uid") Integer uid, @Param("name") String name);
+    void updateStudentAge(@Param("uid") Integer uid, @Param("age") Integer age);
+    void updateStudentGender(@Param("uid") Integer uid, @Param("gender") String gender);
+    void updateStudentAddr(@Param("uid") Integer uid, @Param("addr") String addr);
+    Integer getAcademyUid(@Param("name") String name);
+    Integer getSpecializedUid(@Param("name") String name);
+    Integer getStudentClassUid(@Param("name") String name);
     // 获取整个表数据长度
     Integer getStudentInfoCount();
 }

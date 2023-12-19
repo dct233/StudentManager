@@ -13,6 +13,7 @@ import com.alee.skin.material.MaterialSkin;
 import com.alee.skin.modena.ModenaSkin;
 import com.nocl.studentmanager.view.Login;
 import com.nocl.studentmanager.view.main.StudentMain;
+import com.nocl.studentmanager.view.main.utils.listener.TableModelListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -61,6 +62,7 @@ public class Main {
             //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
             frame.setVisible(true);
+            frame.requestFocus();
             Main.LOGGER.debug(frame.getGraphics().getFontMetrics(frame.getFont()).stringWidth("A"));
 
 

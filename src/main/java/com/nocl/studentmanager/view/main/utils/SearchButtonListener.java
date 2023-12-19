@@ -32,6 +32,6 @@ public class SearchButtonListener extends MouseAdapter {
         student.setSpecialized((String) bottomMenu.getSpecializedComboBox().getSelectedItem());
         student.setStudentClass((String) bottomMenu.getStudentClassComboBox().getSelectedItem());
 
-        Main.studentMain.studentXLS.setModel(StudentXLSUtils.setStudentTable(dao.getStudentInfo(student)));
+        Main.studentMain.studentXLS.setModel(StudentXLSUtils.setStudentTable(dao.getStudentInfo(student), Main.studentMain.studentXLS.getModel()));
     }
 }

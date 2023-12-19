@@ -1,6 +1,8 @@
 package com.nocl.studentmanager.view.main.layout;
 
 import com.nocl.studentmanager.view.main.utils.StudentXLSUtils;
+import com.nocl.studentmanager.view.main.utils.listener.TableListSelectionListener;
+import com.nocl.studentmanager.view.main.utils.listener.TableModelListener;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -12,6 +14,8 @@ public class StudentXLS extends JPanel {
     private final GridBagConstraints gbc;
     private JTable studentTable;
     private DefaultTableModel model;
+    public static TableModelListener tableModelListener;
+    public static TableListSelectionListener tableListSelectionListener;
 
     public StudentXLS() {
         //this.setBackground(Color.BLACK);
@@ -33,11 +37,15 @@ public class StudentXLS extends JPanel {
         initStudentTable();
     }
     private void initStudentTable() {
-        model = StudentXLSUtils.setStudentTable(dao.getStudentInfo(null));
+        model = StudentXLSUtils.setStudentTable(dao.getStudentInfo(null), null);
+        tableModelListener = new TableModelListener(model, null);
+        model.addTableModelListener(tableModelListener);
         // 设置表格Model
         studentTable = new JTable(model);
         studentTable.setFont(new Font("微软雅黑", Font.PLAIN, 14));
         studentTable.setRowHeight(25);
+        tableListSelectionListener = new TableListSelectionListener(model);
+        studentTable.getSelectionModel().addListSelectionListener(tableListSelectionListener);
         // 设置表头样式
         JTableHeader studentTableHeader = new JTableHeader(studentTable.getColumnModel());
         studentTableHeader.setFont(new Font("微软雅黑", Font.BOLD, 14));
@@ -65,7 +73,13 @@ public class StudentXLS extends JPanel {
         return model;
     }
 
+    public JTable getStudentTable() {
+
+        return studentTable;
+    }
+
     public void setModel(DefaultTableModel model) {
+        // studentTable = new JTable(model);
         studentTable.setModel(model);
     }
 }

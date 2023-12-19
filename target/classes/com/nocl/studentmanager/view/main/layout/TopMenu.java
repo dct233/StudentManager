@@ -1,6 +1,7 @@
 package com.nocl.studentmanager.view.main.layout;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.alee.laf.menu.WebMenuItem;
@@ -11,11 +12,15 @@ import com.nocl.studentmanager.view.main.ddl.AddStudentInfo;
 import jdk.jfr.Frequency;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 
 import static com.nocl.studentmanager.Main.frame;
 import static com.nocl.studentmanager.Main.studentMain;
+import static com.nocl.studentmanager.view.main.StudentMain.dao;
+import static com.nocl.studentmanager.view.main.StudentMain.sqlSession;
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 public class TopMenu extends JPanel {
     private final GridBagConstraints gbc;
@@ -58,13 +63,31 @@ public class TopMenu extends JPanel {
         // 容器字号 中文: 12像素 字母: 7像素 符号(包括空格): 3像素
         List<String> items = new ArrayList<>() {{
             add("添加...");
-            add("删除...");
+            add("删除所选条目");
             add("退出系统");
         }};
         // 添加
         topMenu.addItem(items.get(0), e -> menu.getMenu().showBelowMiddle((Component) e.getSource()));
         // 删除选项
-        topMenu.addItem(items.get(1), false, null);
+        topMenu.addItem(items.get(1), true, e -> {
+            int[] rows = studentMain.studentXLS.getStudentTable().getSelectedRows();
+            JTable table = studentMain.studentXLS.getStudentTable();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+            Object[] options = {"确定", "取消"};
+
+            int opt = JOptionPane.showOptionDialog(null, "确认要删除" + rows.length + "条记录?", "删除", JOptionPane.YES_NO_OPTION, QUESTION_MESSAGE, null, options, options[1]);
+
+            if (opt == JOptionPane.YES_OPTION) {
+                for (int i = rows.length - 1; i >= 0; i--) {
+                    int viewRow = rows[i];
+                    int modelRow = table.convertRowIndexToModel(viewRow);
+                    dao.deleteStudentInfo(Integer.valueOf((String) model.getValueAt(modelRow, 0)));
+                    model.removeRow(modelRow);
+                    sqlSession.commit();
+                }
+            }
+        });
         // 退出系统
         topMenu.addItem(items.get(2), null);
         topMenu.getMenu().setForeground(new Color(63,81,181));

@@ -138,4 +138,28 @@
     <select id="getStudentInfoCount" parameterType="java.lang.Integer">
         select count(*) from Student
     </select>
+    <delete id="deleteStudentInfo">
+        delete from Student where uid = #{uid}
+    </delete>
+    <update id="updateStudentAcademy">
+        UPDATE Student SET academy = #{academyName} WHERE uid = #{uid};
+    </update>
+    <update id="updateStudentSpecialized">
+        update Student set specialized = #{specializedName} where uid = #{uid}
+    </update>
+    <update id="updateStudentClass">
+        update Student set studentClass = #{studentClassName} where uid = #{uid}
+    </update>
+    <update id="updateStudentGender">
+        update Student set gender = #{gender} where uid = #{uid}
+    </update>
+    <select id="getAcademyUid" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select id from Academy where name = #{name}
+    </select>
+    <select id="getSpecializedUid" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select id from Specialized where name = #{name}
+    </select>
+    <select id="getStudentClassUid" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select id from StudentClass where name = #{name}
+    </select>
 </mapper>
