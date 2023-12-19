@@ -50,7 +50,7 @@ public class Main {
             ) );
             initGobalFont(new Font("微软雅黑", Font.PLAIN, 15));
 
-            frame = new JFrame("登录") {{
+            frame = new JFrame("学生管理系统") {{
                 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 setExtendedState(JFrame.MAXIMIZED_BOTH);
                 setSize(1600, 800);

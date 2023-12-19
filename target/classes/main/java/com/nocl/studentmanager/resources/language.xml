@@ -1,6 +1,14 @@
 <Dictionary prefix="StudentMain.TopMenu.menu" xmlns="http://weblookandfeel.com/Dictionary">
     <record key="add">
-        <value lang="en">add</value>
         <value lang="zh">学生信息</value>
+    </record>
+    <record key="group">
+        <value lang="zh">群组</value>
+    </record>
+    <record key="ExitA">
+        <value lang="zh">登出账号    </value>
+    </record>
+    <record key="ExitS">
+        <value lang="zh">退出系统    </value>
     </record>
 </Dictionary>

@@ -38,10 +38,8 @@ public class AddButtonListener extends MouseAdapter {
 
             TreePath selectionPath = Main.studentMain.leftMenu.getTree().getSelectionPath();
 
-            Main.LOGGER.debug(selectionPath);
             Main.studentMain.leftMenu.getTree().clearSelection();
             Main.studentMain.leftMenu.getTree().setSelectionPath(selectionPath);
-
         }
     }
 }

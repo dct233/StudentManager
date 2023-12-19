@@ -20,10 +20,10 @@ public class StudentXLS extends JPanel {
     public StudentXLS() {
         //this.setBackground(Color.BLACK);
         GridBagLayout layout = new GridBagLayout();
-        layout.columnWidths = new int[1];
+        layout.columnWidths = new int[3];
         layout.rowHeights = new int[2];
         layout.rowWeights = new double[] {0.8, 0.2};
-        layout.columnWeights = new double[] {1.0};
+        layout.columnWeights = new double[] {0.4, 0.2, 0.4};
         this.setLayout(layout);
 
         // 外部GBC
@@ -35,6 +35,7 @@ public class StudentXLS extends JPanel {
         gbc.gridwidth = 2;
         gbc.gridheight = 1;
         initStudentTable();
+        initTablePage();
     }
     private void initStudentTable() {
         model = StudentXLSUtils.setStudentTable(dao.getStudentInfo(null), null);
@@ -59,10 +60,43 @@ public class StudentXLS extends JPanel {
         layout.fill = GridBagConstraints.BOTH;
         layout.gridx = 0;
         layout.gridy = 0;
-        layout.gridwidth = 1;
+        layout.gridwidth = 3;
         layout.gridheight = 1;
 
         this.add(scrollPane, layout);
+    }
+
+    private void initTablePage() {
+        JButton lastButton = new JButton("上一页");
+        JLabel page = new JLabel("1 / 1");
+        JButton nextButton = new JButton("下一页");
+
+        GridBagConstraints lastLayout = new GridBagConstraints();
+        lastLayout.insets = new Insets(1, 1, 0, 0);
+        lastLayout.fill = GridBagConstraints.BOTH;
+        lastLayout.gridx = 0;
+        lastLayout.gridy = 1;
+        lastLayout.gridwidth = 1;
+        lastLayout.gridheight = 1;
+
+        GridBagConstraints pageLayout = new GridBagConstraints();
+        pageLayout.insets = new Insets(1, 1, 0, 0);
+        pageLayout.gridx = 1;
+        pageLayout.gridy = 1;
+        pageLayout.gridwidth = 1;
+        pageLayout.gridheight = 1;
+
+        GridBagConstraints nextLayout = new GridBagConstraints();
+        nextLayout.insets = new Insets(1, 1, 0, 0);
+        nextLayout.fill = GridBagConstraints.BOTH;
+        nextLayout.gridx = 2;
+        nextLayout.gridy = 1;
+        nextLayout.gridwidth = 1;
+        nextLayout.gridheight = 1;
+
+        this.add(lastButton, lastLayout);
+        this.add(page, pageLayout);
+        this.add(nextButton, nextLayout);
     }
 
     public GridBagConstraints getGbc() {

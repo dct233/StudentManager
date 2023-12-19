@@ -8,6 +8,7 @@ import com.alee.laf.menu.WebMenuItem;
 import com.alee.utils.swing.menu.MenuBarGenerator;
 import com.alee.utils.swing.menu.PopupMenuGenerator;
 import com.nocl.studentmanager.Main;
+import com.nocl.studentmanager.view.Login;
 import com.nocl.studentmanager.view.main.ddl.AddStudentInfo;
 import jdk.jfr.Frequency;
 
@@ -24,7 +25,8 @@ import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 public class TopMenu extends JPanel {
     private final GridBagConstraints gbc;
-    private PopupMenuGenerator menu;
+    private PopupMenuGenerator addMenuPopup;
+    private PopupMenuGenerator exitMenuPopup;
     private MenuBarGenerator topMenu;
     // private JMenu info;
     // private JMenu operate;
@@ -50,7 +52,8 @@ public class TopMenu extends JPanel {
         // 初始化内部容器组件
         //initTabbedPane();
         initMenuBar();
-        initPopupMenu();
+        initAddPopupMenu();
+        initExitPopupMenu();
         /*
         initMenuBar();
         initTitle();
@@ -60,6 +63,7 @@ public class TopMenu extends JPanel {
 
     private void initMenuBar() {
         topMenu = new MenuBarGenerator();
+        topMenu.setIconSettings ( "resources/icons", ".png" );
         // 容器字号 中文: 12像素 字母: 7像素 符号(包括空格): 3像素
         List<String> items = new ArrayList<>() {{
             add("添加...");
@@ -67,9 +71,9 @@ public class TopMenu extends JPanel {
             add("退出系统");
         }};
         // 添加
-        topMenu.addItem(items.get(0), e -> menu.getMenu().showBelowMiddle((Component) e.getSource()));
+        topMenu.addItem("add16", items.get(0), e -> addMenuPopup.getMenu().showBelowMiddle((Component) e.getSource()));
         // 删除选项
-        topMenu.addItem(items.get(1), true, e -> {
+        topMenu.addItem("delete16",items.get(1), true, e -> {
             int[] rows = studentMain.studentXLS.getStudentTable().getSelectedRows();
             JTable table = studentMain.studentXLS.getStudentTable();
             DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -89,14 +93,15 @@ public class TopMenu extends JPanel {
             }
         });
         // 退出系统
-        topMenu.addItem(items.get(2), null);
+        topMenu.addItem("exit16", items.get(2), e -> exitMenuPopup.getMenu().showBelowMiddle((Component) e.getSource()));
         topMenu.getMenu().setForeground(new Color(63,81,181));
+
 
         topMenu.getMenu().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                int width = studentMain.topMenu.getWidth() ;
+                int width = studentMain.topMenu.getWidth() - 80;
                 int space = topMenu.getMenu().getGraphics().getFontMetrics().charWidth(' ');
                 for (String item : items) {
                     width -= topMenu.getMenu().getGraphics().getFontMetrics().stringWidth(item);
@@ -105,18 +110,19 @@ public class TopMenu extends JPanel {
                     topMenu.getMenu().remove(topMenu.getMenu().getComponentCount() - 2);
                 }
                 topMenu.getMenu().add(new WebMenuItem(" ".repeat(width / space)) {{ setEnabled(false); }}, topMenu.getMenu().getComponentCount() - 1);
+                studentMain.topMenu.setMaximumSize(new Dimension(studentMain.topMenu.getWidth(), 30));
                 topMenu.getMenu().revalidate();
             }
         });
 
-        frame.addWindowStateListener(new WindowAdapter() {
+        /*frame.addWindowStateListener(new WindowAdapter() {
             @Override
             public void windowStateChanged(WindowEvent e) {
                 super.windowStateChanged(e);
                 WebMenuItem component = (WebMenuItem) topMenu.getMenu().getComponent(topMenu.getMenu().getComponentCount() - 1);
                 component.doClick();
             }
-        });
+        });*/
 
         GridBagConstraints buttonGbr = new GridBagConstraints();
         buttonGbr.insets = new Insets(0, 0, 0,0);
@@ -175,19 +181,37 @@ public class TopMenu extends JPanel {
         this.add(panel, panelGbc);
     }*/
     // 利用 Weblaf 快速创建菜单栏
-    private void initPopupMenu() {
-        menu = new PopupMenuGenerator();
-        menu.setIconSettings ( "resources/icons", ".png" );
-        menu.setLanguagePrefix ( "StudentMain.TopMenu.menu" );
-        menu.getMenu().setFont(new Font("微软雅黑", Font.BOLD, 15));
+    private void initAddPopupMenu() {
+        addMenuPopup = new PopupMenuGenerator();
+        addMenuPopup.setIconSettings ("resources/icons", ".png");
+        addMenuPopup.setLanguagePrefix ("StudentMain.TopMenu.menu");
+        addMenuPopup.getMenu().setFont(new Font("微软雅黑", Font.BOLD, 15));
 
-        menu.addItem ( "add16", "add", e -> {
+        addMenuPopup.addItem ( "add16", "add", e -> {
             AddStudentInfo addStudentInfo = new AddStudentInfo(Main.frame);
             addStudentInfo.setLocationRelativeTo(Main.frame);
             addStudentInfo.setModal(true);
             addStudentInfo.setVisible(true);
             /*NotificationManager.showNotification ( "StudentMain.TopMenu.menu.add" );*/
         });
+        addMenuPopup.addItem("add16", "group", null);
+    }
+    private void initExitPopupMenu() {
+        exitMenuPopup = new PopupMenuGenerator();
+        exitMenuPopup.setIconSettings("resources/icons", ".png");
+        exitMenuPopup.setLanguagePrefix("StudentMain.TopMenu.menu");
+        exitMenuPopup.getMenu().setFont(new Font("微软雅黑", Font.BOLD, 15));
+
+        exitMenuPopup.addItem("exit16", "ExitA", e -> {
+            frame.setExtendedState(Frame.NORMAL);
+            frame.setSize(350, 300);
+            frame.setVisible(false);
+            frame.setTitle("登录");
+            frame.setResizable(false);
+            frame.setContentPane(new Login().getRoot());
+            frame.setVisible(true);
+        });
+        exitMenuPopup.addItem("exit16", "ExitS", e -> System.exit(0));
     }
     // 第二版菜单栏
     /*private void initTabbedPane() {
