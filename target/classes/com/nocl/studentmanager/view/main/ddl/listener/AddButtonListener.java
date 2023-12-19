@@ -1,11 +1,16 @@
 package com.nocl.studentmanager.view.main.ddl.listener;
 
 import com.nocl.studentmanager.Main;
+import com.nocl.studentmanager.database.bean.Student;
 import com.nocl.studentmanager.view.main.ddl.AddStudentInfo;
 import com.nocl.studentmanager.view.main.utils.StudentXLSUtils;
 
+import javax.swing.*;
+import javax.swing.tree.TreePath;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.nocl.studentmanager.view.main.StudentMain.*;
 
@@ -30,7 +35,13 @@ public class AddButtonListener extends MouseAdapter {
             );
             sqlSession.commit();
             addStudentInfo.dispose();
-            Main.studentMain.studentXLS.setModel(StudentXLSUtils.setStudentTable(dao.getStudentInfo(null), Main.studentMain.studentXLS.getModel()));
+
+            TreePath selectionPath = Main.studentMain.leftMenu.getTree().getSelectionPath();
+
+            Main.LOGGER.debug(selectionPath);
+            Main.studentMain.leftMenu.getTree().clearSelection();
+            Main.studentMain.leftMenu.getTree().setSelectionPath(selectionPath);
+
         }
     }
 }

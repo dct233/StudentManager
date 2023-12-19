@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface StudentInfoDAO {
     List<Student> getStudentInfo(Student student);
+    // List<Student> getStudentInfoClass(@Param("academy") String academyName, @Param("specialized") String specializedName, @Param("studentClass") String studentClassName);
     void insertStudent(
             @Param("Name") String name,
             @Param("Age") Integer age,

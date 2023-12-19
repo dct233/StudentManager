@@ -10,6 +10,20 @@ public class Student {
     private String specialized;
     private String studentClass;
 
+    public Student() {}
+    public Student(String academy) {
+        this.academy = academy;
+    }
+    public Student(String academy, String specialized) {
+        this.academy = academy;
+        this.specialized = specialized;
+    }
+    public Student(String academy, String specialized, String studentClass) {
+        this.academy = academy;
+        this.specialized = specialized;
+        this.studentClass = studentClass;
+    }
+
     public Student getStudent() {
         return this;
     }

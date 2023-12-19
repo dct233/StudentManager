@@ -3,17 +3,17 @@ package com.nocl.studentmanager.view.main.layout;
 import com.nocl.studentmanager.Main;
 import com.nocl.studentmanager.view.main.utils.StudentXLSUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
-import java.util.Map;
+import java.util.List;
 
 import static com.nocl.studentmanager.view.main.StudentMain.dao;
 
@@ -120,16 +120,35 @@ public class LeftMenu extends JPanel {
 
         tree = new JTree(root);
 
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        TreePath defaultPath = new TreePath(root.getFirstChild());
+        tree.setSelectionPath(defaultPath);
+
         tree.addTreeSelectionListener(e -> {
             if (e.getSource() == tree) {
-                DefaultMutableTreeNode dmt = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-                if (dmt.isRoot()) {
-                    Main.studentMain.studentXLS.setModel(StudentXLSUtils.setStudentTable(dao.getStudentInfo(null), Main.studentMain.studentXLS.getModel()));
-                    return;
+                if (tree.getSelectionPath() != null) {
+                    System.out.println(Arrays.toString(tree.getSelectionPath().getPath()));
+                    System.out.println(Arrays.toString(tree.getSelectionPaths()));
+                    Main.studentMain.studentXLS.getModel().removeTableModelListener(StudentXLS.tableModelListener);
+                    DefaultMutableTreeNode dmt = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                    if (dmt != null) {
+                        if (dmt.isRoot()) {
+                            Main.studentMain.studentXLS.getModel().setDataVector(StudentXLSUtils.tableDataToObjectArray(dao.getStudentInfo(null)), StudentXLSUtils.headerTitle);
+                            Main.studentMain.studentXLS.getModel().addTableModelListener(StudentXLS.tableModelListener);
+                            return;
+                        }
+                        try {
+                            Main.studentMain.studentXLS.getModel().setDataVector(StudentXLSUtils.tableDataToObjectArray(dao.getTreeList('%' + dmt.getUserObject().toString() + '%')), StudentXLSUtils.headerTitle);
+                        } catch (Exception exception) {
+                            Main.LOGGER.error(exception);
+                        }
+                        Main.studentMain.studentXLS.getModel().addTableModelListener(StudentXLS.tableModelListener);
+                    }
                 }
-                Main.studentMain.studentXLS.setModel(StudentXLSUtils.setStudentTable(dao.getTreeList('%' + dmt.getUserObject().toString() + '%'), Main.studentMain.studentXLS.getModel()));
             }
         });
+
+        //tree.setSelectionPath(root.)
 
         GridBagConstraints treeGbc = new GridBagConstraints();
         treeGbc.fill = GridBagConstraints.BOTH;
@@ -143,5 +162,9 @@ public class LeftMenu extends JPanel {
 
     public GridBagConstraints getGbc() {
         return gbc;
+    }
+
+    public JTree getTree() {
+        return tree;
     }
 }

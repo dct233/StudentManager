@@ -6,6 +6,7 @@
         </SwingAppender>
         <console name="Console" target="SYSTEM_OUT">
             <!--输出日志的格式-->
+            <PatternLayout pattern="%d{HH:mm:ss} %-5level %logger{36} - %msg%n" />
         </console>
     </Appenders>
     <Loggers>

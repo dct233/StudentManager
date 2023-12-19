@@ -29,9 +29,8 @@ public class TableListSelectionListener implements ListSelectionListener {
                 }
 
                 model.removeTableModelListener(StudentXLS.tableModelListener);
-                TableModelListener listener = new TableModelListener(model, null);
-                listener.setOldModel(temp);
-                model.addTableModelListener(listener);
+                StudentXLS.tableModelListener.setOldModel(temp);
+                model.addTableModelListener(StudentXLS.tableModelListener);
             }
         }
         source.addListSelectionListener(this);
