@@ -1,8 +1,13 @@
 package com.nocl.studentmanager.view.main.layout;
 
+import com.nocl.studentmanager.database.bean.Student;
 import com.nocl.studentmanager.view.main.utils.StudentXLSUtils;
 import com.nocl.studentmanager.view.main.utils.listener.TableListSelectionListener;
 import com.nocl.studentmanager.view.main.utils.listener.TableModelListener;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -14,6 +19,12 @@ public class StudentXLS extends JPanel {
     private final GridBagConstraints gbc;
     private JTable studentTable;
     private DefaultTableModel model;
+    private JLabel page;
+    private JButton lastButton;
+    private JButton nextButton;
+    public static int maxPage = 0;
+    public static int minPage = 1;
+    public static Student student = null;
     public static TableModelListener tableModelListener;
     public static TableListSelectionListener tableListSelectionListener;
 
@@ -34,11 +45,23 @@ public class StudentXLS extends JPanel {
         gbc.gridy = 1;
         gbc.gridwidth = 2;
         gbc.gridheight = 1;
-        initStudentTable();
         initTablePage();
+        initStudentTable();
     }
     private void initStudentTable() {
-        model = StudentXLSUtils.setStudentTable(dao.getStudentInfo(null), null);
+        List<Student> studentList = dao.getStudentInfo(null);
+        maxPage = studentList.size() / 50;
+        if (maxPage == 0) {
+            lastButton.setEnabled(false);
+            nextButton.setEnabled(false);
+            model = StudentXLSUtils.setStudentTable(studentList, null);
+        } else {
+            lastButton.setEnabled(false);
+            nextButton.setEnabled(true);
+
+            page.setText("1 / " + (maxPage + 1));
+            model = StudentXLSUtils.setStudentTable(studentList.subList(0, 50), null);
+        }
         tableModelListener = new TableModelListener(model, null);
         model.addTableModelListener(tableModelListener);
         // 设置表格Model
@@ -67,9 +90,53 @@ public class StudentXLS extends JPanel {
     }
 
     private void initTablePage() {
-        JButton lastButton = new JButton("上一页");
-        JLabel page = new JLabel("1 / 1");
-        JButton nextButton = new JButton("下一页");
+        lastButton = new JButton("上一页");
+        page = new JLabel("1 / 1");
+        nextButton = new JButton("下一页");
+
+        lastButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                if (minPage != maxPage) {
+                    nextButton.setEnabled(true);
+                }
+                if (lastButton.isEnabled()) {
+
+                    model.removeTableModelListener(tableModelListener);
+                    minPage--;
+                    page.setText(minPage + " / " + (maxPage + 1));
+                    model.setDataVector(StudentXLSUtils.tableDataToObjectArray(dao.getStudentIndex(student, (minPage - 1) * 50, 50)), StudentXLSUtils.headerTitle);
+                    model.addTableModelListener(tableModelListener);
+                    if (minPage <= 1) {
+                        lastButton.setEnabled(false);
+                    }
+                }
+            }
+        });
+        nextButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (minPage > 1) {
+                    lastButton.setEnabled(true);
+                }
+                if (nextButton.isEnabled()) {
+                    model.removeTableModelListener(tableModelListener);
+                    minPage++;
+                    page.setText(minPage + " / " + (maxPage + 1));
+                    model.setDataVector(StudentXLSUtils.tableDataToObjectArray(dao.getStudentIndex(student, (minPage - 1) * 50, 50)), StudentXLSUtils.headerTitle);
+                    model.addTableModelListener(tableModelListener);
+                    if (minPage == maxPage + 1) {
+                        nextButton.setEnabled(false);
+                    }
+                    if (minPage > 1) {
+                        lastButton.setEnabled(true);
+                    }
+                }
+            }
+        });
 
         GridBagConstraints lastLayout = new GridBagConstraints();
         lastLayout.insets = new Insets(1, 1, 0, 0);
@@ -115,5 +182,16 @@ public class StudentXLS extends JPanel {
     public void setModel(DefaultTableModel model) {
         // studentTable = new JTable(model);
         studentTable.setModel(model);
+    }
+
+    public JLabel getPage() {
+        return page;
+    }
+    public JButton getLastButton() {
+        return lastButton;
+    }
+
+    public JButton getNextButton() {
+        return nextButton;
     }
 }

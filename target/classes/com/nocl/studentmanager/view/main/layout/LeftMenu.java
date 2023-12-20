@@ -1,6 +1,7 @@
 package com.nocl.studentmanager.view.main.layout;
 
 import com.nocl.studentmanager.Main;
+import com.nocl.studentmanager.database.bean.Student;
 import com.nocl.studentmanager.view.main.utils.StudentXLSUtils;
 
 import java.util.*;
@@ -127,23 +128,68 @@ public class LeftMenu extends JPanel {
         tree.addTreeSelectionListener(e -> {
             if (e.getSource() == tree) {
                 if (tree.getSelectionPath() != null) {
-                    System.out.println(Arrays.toString(tree.getSelectionPath().getPath()));
-                    System.out.println(Arrays.toString(tree.getSelectionPaths()));
                     Main.studentMain.studentXLS.getModel().removeTableModelListener(StudentXLS.tableModelListener);
                     DefaultMutableTreeNode dmt = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-                    if (dmt != null) {
-                        if (dmt.isRoot()) {
-                            Main.studentMain.studentXLS.getModel().setDataVector(StudentXLSUtils.tableDataToObjectArray(dao.getStudentInfo(null)), StudentXLSUtils.headerTitle);
-                            Main.studentMain.studentXLS.getModel().addTableModelListener(StudentXLS.tableModelListener);
-                            return;
+                    System.out.println("深度: " + tree.getSelectionPath().getPathCount());
+                    if (tree.getSelectionPath() != null) {
+                        switch (tree.getSelectionPath().getPathCount()) {
+                            // 根节点处理
+                            case 1 -> {
+                                StudentXLS.minPage = 1;
+                                StudentXLS.maxPage = dao.getStudentCount(null) / 50;
+                                StudentXLS.student = null;
+                                Main.studentMain.studentXLS.getLastButton().setEnabled(false);
+                                Main.studentMain.studentXLS.getNextButton().setEnabled(true);
+                                Main.studentMain.studentXLS.getPage().setText(StudentXLS.minPage + " / " + (StudentXLS.maxPage + 1));
+                                // 获取头50条数据并设置到table
+                                Main.studentMain.studentXLS.getModel().setDataVector(StudentXLSUtils.tableDataToObjectArray(dao.getStudentIndex(null,0, 50)), StudentXLSUtils.headerTitle);
+                                Main.studentMain.studentXLS.getModel().addTableModelListener(StudentXLS.tableModelListener);
+                            }
+                            // 二级节点院校
+                            case 2 -> {
+                                StudentXLS.minPage = 1;
+                                Student student = new Student(dmt.getUserObject().toString());
+                                StudentXLS.maxPage = dao.getStudentCount(student) / 50;
+                                StudentXLS.student = student;
+                                Main.studentMain.studentXLS.getLastButton().setEnabled(false);
+                                Main.studentMain.studentXLS.getNextButton().setEnabled(true);
+                                Main.studentMain.studentXLS.getPage().setText(StudentXLS.minPage + " / " + (StudentXLS.maxPage + 1));
+
+                                Main.studentMain.studentXLS.getModel().setDataVector(StudentXLSUtils.tableDataToObjectArray(dao.getStudentIndex(student,0, 50)), StudentXLSUtils.headerTitle);
+                                Main.studentMain.studentXLS.getModel().addTableModelListener(StudentXLS.tableModelListener);
+                            }
+                            // 三级节点专业
+                            case 3 -> {
+                                StudentXLS.minPage = 1;
+                                Student student = new Student(null, dmt.getUserObject().toString());
+                                StudentXLS.maxPage = dao.getStudentCount(student) / 50;
+                                StudentXLS.student = student;
+
+                                Main.studentMain.studentXLS.getLastButton().setEnabled(false);
+                                Main.studentMain.studentXLS.getNextButton().setEnabled(true);
+                                Main.studentMain.studentXLS.getPage().setText(StudentXLS.minPage + " / " + (StudentXLS.maxPage + 1));
+
+                                Main.studentMain.studentXLS.getModel().setDataVector(StudentXLSUtils.tableDataToObjectArray(dao.getStudentIndex(student,0, 50)), StudentXLSUtils.headerTitle);
+                                Main.studentMain.studentXLS.getModel().addTableModelListener(StudentXLS.tableModelListener);
+                            }
+                            // 底层节点班级
+                            case 4 -> {
+                                StudentXLS.minPage = 1;
+                                Student student = new Student(null, null, dmt.getUserObject().toString());
+                                StudentXLS.maxPage = dao.getStudentCount(student) / 50;
+                                StudentXLS.student = student;
+
+                                Main.studentMain.studentXLS.getLastButton().setEnabled(false);
+                                Main.studentMain.studentXLS.getNextButton().setEnabled(true);
+                                Main.studentMain.studentXLS.getPage().setText(StudentXLS.minPage + " / " + (StudentXLS.maxPage + 1));
+
+                                Main.studentMain.studentXLS.getModel().setDataVector(StudentXLSUtils.tableDataToObjectArray(dao.getStudentIndex(student,0, 50)), StudentXLSUtils.headerTitle);
+                                Main.studentMain.studentXLS.getModel().addTableModelListener(StudentXLS.tableModelListener);
+                            }
                         }
-                        try {
-                            Main.studentMain.studentXLS.getModel().setDataVector(StudentXLSUtils.tableDataToObjectArray(dao.getTreeList('%' + dmt.getUserObject().toString() + '%')), StudentXLSUtils.headerTitle);
-                        } catch (Exception exception) {
-                            Main.LOGGER.error(exception);
-                        }
-                        Main.studentMain.studentXLS.getModel().addTableModelListener(StudentXLS.tableModelListener);
                     }
+
+                    Main.studentMain.studentXLS.getModel().addTableModelListener(StudentXLS.tableModelListener);
                 }
             }
         });

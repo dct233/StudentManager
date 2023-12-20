@@ -41,6 +41,75 @@
         </where>
         order by Student.uid
     </select>
+    <select id="getStudentIndex" resultType="com.nocl.studentmanager.database.bean.Student">
+        SELECT
+            Student.uid,
+            Student.name,
+            Student.age,
+            Student.gender,
+            Student.addr,
+            Academy.name as academy,
+            Specialized.name as specialized,
+            StudentClass.name as studentClass
+        FROM Student
+            JOIN Academy ON Student.academy = Academy.id
+            JOIN Specialized ON Student.specialized = Specialized.id
+            JOIN StudentClass ON Student.studentClass = StudentClass.id
+        <where>
+            <if test="student != null">
+                <if test="student.name != null">
+                    AND Student.name = #{student.name}
+                </if>
+                <if test="student.age != null">
+                    AND age = #{student.age}
+                </if>
+                <if test="student.gender != null">
+                    AND gender = #{student.gender}
+                </if>
+                <if test="student.academy != null">
+                    AND Academy.name = #{student.academy}
+                </if>
+                <if test="student.specialized != null">
+                    AND Specialized.name = #{student.specialized}
+                </if>
+                <if test="student.studentClass != null">
+                    AND StudentClass.name = #{student.studentClass}
+                </if>
+            </if>
+        </where>
+        order by uid
+        limit #{page}, #{index}
+    </select>
+    <select id="getStudentCount" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+        FROM Student
+            JOIN Academy ON Student.academy = Academy.id
+            JOIN Specialized ON Student.specialized = Specialized.id
+            JOIN StudentClass ON Student.studentClass = StudentClass.id
+        <where>
+            <if test="student != null">
+                <if test="student.name != null">
+                    AND Student.name = #{name}
+                </if>
+                <if test="student.age != null">
+                    AND age = #{age}
+                </if>
+                <if test="student.gender != null">
+                    AND gender = #{gender}
+                </if>
+                <if test="student.academy != null">
+                    AND Academy.name = #{academy}
+                </if>
+                <if test="student.specialized != null">
+                    AND Specialized.name = #{specialized}
+                </if>
+                <if test="student.studentClass != null">
+                    AND StudentClass.name = #{studentClass}
+                </if>
+            </if>
+        </where>
+    </select>
     <select id="getTreeList" parameterType="com.nocl.studentmanager.database.bean.Student">
         select * from (
             SELECT
@@ -58,6 +127,7 @@
                 JOIN StudentClass ON Student.studentClass = StudentClass.id) as temp
         where CONCAT(academy,specialized,studentClass) LIKE #{name}
         order by uid
+        limit #{page} #{index};
     </select>
     <insert id="insertStudent" useGeneratedKeys="true">
         insert into Student VALUES (null, '${Name}', '${Age}', '${Gender}', '${Addr}', (select id from Academy where `name` = '${Academy}'), (select id from Specialized where `name` = '${Specialized}'), (select id from StudentClass where `name` = '${StudentClass}'))

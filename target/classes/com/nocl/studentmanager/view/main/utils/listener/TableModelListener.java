@@ -26,16 +26,15 @@ public class TableModelListener implements javax.swing.event.TableModelListener 
         // 临时关闭当前监听, 防止监听循环导致栈溢出
         model.removeTableModelListener(this);
         System.out.println(oldModel);
-        if (e.getType() == TableModelEvent.UPDATE && oldModel != null) {
-            int row = e.getFirstRow();
-            int column = e.getColumn();
+        int row = e.getFirstRow();
+        int column = e.getColumn();
+        if (e.getType() == TableModelEvent.UPDATE && oldModel != null && row != -1) {
             Integer uid = Integer.valueOf((String) model.getValueAt(row, 0));
             String value = (String) model.getValueAt(row, column);
             System.out.println(value);
             switch (column) {
                 case 1 -> dao.updateStudentName(uid, value);
-                case 2 -> // 年龄
-                        dao.updateStudentAge(uid, Integer.valueOf(value));
+                case 2 -> dao.updateStudentAge(uid, Integer.valueOf(value));
                 case 3 -> {
                     // 性别
                     if (value.equals("男") || value.equals("女") || value.equals("未知")) {
