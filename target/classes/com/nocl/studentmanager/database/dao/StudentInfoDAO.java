@@ -43,4 +43,11 @@ public interface StudentInfoDAO {
     Integer getAcademyUid(@Param("name") String name);
     Integer getSpecializedUid(@Param("name") String name);
     Integer getStudentClassUid(@Param("name") String name);
+    Integer getMaxAcademyId();
+    Integer getMaxSpecializedId();
+    Integer getMaxStudentClassId();
+
+    void insertAcademy(@Param("id") Integer id, @Param("name") String name);
+    void insertSpecialized(@Param("id") Integer id, @Param("name") String name, @Param("uid") Integer academyUid);
+    void insertStudentClass(@Param("id") Integer id, @Param("name") String name, @Param("uid") Integer specializedUid);
 }

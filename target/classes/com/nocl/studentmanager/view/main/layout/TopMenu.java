@@ -7,7 +7,8 @@ import com.alee.laf.menu.WebMenuItem;
 import com.alee.utils.swing.menu.MenuBarGenerator;
 import com.alee.utils.swing.menu.PopupMenuGenerator;
 import com.nocl.studentmanager.Main;
-import com.nocl.studentmanager.view.main.ddl.AddStudentInfo;
+import com.nocl.studentmanager.view.main.add.AddGroup;
+import com.nocl.studentmanager.view.main.add.AddStudentInfo;
 import com.nocl.studentmanager.view.newLogin.Login;
 
 import javax.swing.*;
@@ -192,7 +193,12 @@ public class TopMenu extends JPanel {
             addStudentInfo.setVisible(true);
             /*NotificationManager.showNotification ( "StudentMain.TopMenu.menu.add" );*/
         });
-        addMenuPopup.addItem("add16", "group", null);
+        addMenuPopup.addItem("add16", "group", e -> {
+            AddGroup addGroup = new AddGroup(frame);
+            addGroup.setLocationRelativeTo(frame);
+            addGroup.setModal(true);
+            addGroup.setVisible(true);
+        });
     }
     private void initExitPopupMenu() {
         exitMenuPopup = new PopupMenuGenerator();

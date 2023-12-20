@@ -1,6 +1,6 @@
-package com.nocl.studentmanager.view.main.ddl;
+package com.nocl.studentmanager.view.main.add;
 
-import com.nocl.studentmanager.view.main.ddl.listener.*;
+import com.nocl.studentmanager.view.main.add.listener.*;
 import com.nocl.studentmanager.view.main.utils.InitComponent;
 
 import javax.swing.*;

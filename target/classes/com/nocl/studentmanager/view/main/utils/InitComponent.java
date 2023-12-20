@@ -6,13 +6,22 @@ import java.util.List;
 
 public class InitComponent {
     public static JLabel initLabel(String label, int[] labelAddr, JPanel parentPanel) {
+        return initLabel(label, labelAddr, new Insets(5, 0, 5, 25), GridBagConstraints.LINE_END, parentPanel);
+    }
+    public static JLabel initLabel(String label, int[] labelAddr, int anchor, JPanel parentPanel) {
+        return initLabel(label, labelAddr, new Insets(5, 0, 5, 25), anchor, parentPanel);
+    }
+    public static JLabel initLabel(String label, int[] labelAddr, Insets insets, JPanel parentPanel) {
+        return initLabel(label, labelAddr, insets, GridBagConstraints.LINE_END, parentPanel);
+    }
+    public static JLabel initLabel(String label, int[] labelAddr, Insets insets, int anchor, JPanel parentPanel) {
         JLabel jLabel = new JLabel(label);
         jLabel.setFont(new Font("微软雅黑", Font.BOLD, 13));
 
         GridBagConstraints labelPanelGbc = new GridBagConstraints();
         labelPanelGbc.fill = GridBagConstraints.NONE;
-        labelPanelGbc.insets = new Insets(5, 0, 5, 25);
-        labelPanelGbc.anchor = GridBagConstraints.LINE_END;
+        labelPanelGbc.insets = insets;
+        labelPanelGbc.anchor = anchor;
         labelPanelGbc.gridx = labelAddr[0];
         labelPanelGbc.gridy = labelAddr[1];
         labelPanelGbc.gridwidth = labelAddr[2];
@@ -69,10 +78,10 @@ public class InitComponent {
         return initComboBox(label, data, labelAddr, comboBoxAddr, fill, anchor, new Insets(5, 0, 5, 5),parentPanel);
     }
     public static JComboBox<String> initComboBox(String label, List<String> data, int[] labelAddr, int[] comboBoxAddr, int fill, JPanel parentPanel) {
-        return initComboBox(label, data, labelAddr, comboBoxAddr, fill, GridBagConstraints.CENTER, new Insets(5, 0, 5, 5), parentPanel);
+        return initComboBox(label, data, labelAddr, comboBoxAddr, fill, GridBagConstraints.LINE_END, new Insets(5, 0, 5, 5), parentPanel);
     }
     public static JComboBox<String> initComboBox(String label, List<String> data, int[] labelAddr, int[] comboBoxAddr, Insets insets, JPanel parentPanel) {
-        return initComboBox(label, data, labelAddr, comboBoxAddr, GridBagConstraints.BOTH, GridBagConstraints.CENTER, insets, parentPanel);
+        return initComboBox(label, data, labelAddr, comboBoxAddr, GridBagConstraints.BOTH, GridBagConstraints.LINE_END, insets, parentPanel);
     }
     public static JComboBox<String> initComboBox(String label, List<String> data, int[] labelAddr, int[] comboBoxAddr, int fill, int anchor, Insets insets, JPanel parentPanel) {
         JComboBox<String> comboBox;
@@ -86,7 +95,39 @@ public class InitComponent {
         comboBoxGbc.gridwidth = comboBoxAddr[2];
         comboBoxGbc.gridheight = comboBoxAddr[3];
         comboBoxGbc.weighty = 0.01;
-        initLabel(label, labelAddr, parentPanel);
+        initLabel(label, labelAddr, anchor, parentPanel);
+        try {
+            // 初始化时添加空选项
+            if (data.get(0) != null) {
+                data.add(0, null);
+            }
+            comboBox = new JComboBox<>(data.toArray(String[]::new));
+            comboBox.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+            // 固定大小, 防止选择时导致空间挤压
+            comboBox.setPreferredSize(new Dimension(10, 30));
+
+            parentPanel.add(comboBox, comboBoxGbc);
+        } catch (NullPointerException e) {
+            //LOGGER.error(e);
+            //LOGGER.error(label + "为空, 请先添加一个" + label + "组");
+            comboBox = new JComboBox<>(new String[] {});
+            parentPanel.add(comboBox, comboBoxGbc);
+        }
+        return comboBox;
+    }
+
+    public static JComboBox<String> initNoLabelComboBox(List<String> data, int[] comboBoxAddr, int fill, int anchor, Insets insets, JPanel parentPanel) {
+        JComboBox<String> comboBox;
+
+        GridBagConstraints comboBoxGbc = new GridBagConstraints();
+        comboBoxGbc.fill = fill;
+        comboBoxGbc.insets = insets;
+        comboBoxGbc.anchor = anchor;
+        comboBoxGbc.gridx = comboBoxAddr[0];
+        comboBoxGbc.gridy = comboBoxAddr[1];
+        comboBoxGbc.gridwidth = comboBoxAddr[2];
+        comboBoxGbc.gridheight = comboBoxAddr[3];
+        comboBoxGbc.weighty = 0.01;
         try {
             // 初始化时添加空选项
             if (data.get(0) != null) {

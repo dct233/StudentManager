@@ -9,10 +9,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
+import javax.swing.tree.*;
 import java.awt.*;
 import java.util.List;
 
@@ -22,6 +19,8 @@ public class LeftMenu extends JPanel {
     private final GridBagConstraints gbc;
     private JLabel add;
     private JTree tree;
+    public DefaultMutableTreeNode root;
+    public DefaultTreeModel model;
 
     public LeftMenu() {
         GridBagLayout layout = new GridBagLayout();
@@ -58,7 +57,7 @@ public class LeftMenu extends JPanel {
     }
 
     private void initTree() {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
+        root = new DefaultMutableTreeNode("Root");
         // 获取院校
         List<String> academyList = dao.getAcademy();
 
@@ -118,8 +117,9 @@ public class LeftMenu extends JPanel {
         for (DefaultMutableTreeNode node : academyTree) {
             root.add(node);
         }
-
-        tree = new JTree(root);
+        model = new DefaultTreeModel(root, false);
+        tree = new JTree();
+        tree.setModel(model);
 
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         TreePath defaultPath = new TreePath(root.getFirstChild());
@@ -130,8 +130,8 @@ public class LeftMenu extends JPanel {
                 if (tree.getSelectionPath() != null) {
                     Main.studentMain.studentXLS.getModel().removeTableModelListener(StudentXLS.tableModelListener);
                     DefaultMutableTreeNode dmt = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-                    System.out.println("深度: " + tree.getSelectionPath().getPathCount());
                     if (tree.getSelectionPath() != null) {
+                        // 根据节点深度来选择
                         switch (tree.getSelectionPath().getPathCount()) {
                             // 根节点处理
                             case 1 -> {

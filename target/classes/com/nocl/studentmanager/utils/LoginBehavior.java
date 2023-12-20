@@ -7,6 +7,7 @@ import com.nocl.studentmanager.view.main.StudentMain;
 import org.apache.ibatis.session.SqlSession;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 
 public class LoginBehavior {

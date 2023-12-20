@@ -232,4 +232,22 @@
     <select id="getStudentClassUid" parameterType="java.lang.String" resultType="java.lang.Integer">
         select id from StudentClass where name = #{name}
     </select>
+    <insert id="insertAcademy">
+        insert into Academy VALUES(#{id} + 1, #{name})
+    </insert>
+    <insert id="insertSpecialized">
+        insert into Specialized VALUES(#{id} + 1, #{name}, #{uid})
+    </insert>
+    <insert id="insertStudentClass">
+        insert into StudentClass values(#{id} + 1, #{name}, #{uid})
+    </insert>
+    <select id="getMaxAcademyId">
+        select max(id) from Academy
+    </select>
+    <select id="getMaxSpecializedId">
+        select max(id) from Specialized;
+    </select>
+    <select id="getMaxStudentClassId">
+        select max(id) from StudentClass
+    </select>
 </mapper>
