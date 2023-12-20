@@ -12,7 +12,6 @@ import java.util.Vector;
 
 import static com.nocl.studentmanager.view.main.StudentMain.dao;
 import static com.nocl.studentmanager.view.main.StudentMain.sqlSession;
-import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 public class TableModelListener implements javax.swing.event.TableModelListener {
     private DefaultTableModel model;

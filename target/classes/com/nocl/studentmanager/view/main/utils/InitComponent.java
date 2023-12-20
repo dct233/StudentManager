@@ -44,6 +44,24 @@ public class InitComponent {
 
         return textField;
     }
+
+    public static JPasswordField initPasswordInput(String label, int[] labelAddr, int[] inputAddr, int fill, JPanel parentPanel) {
+        JPasswordField textField = new JPasswordField();
+        textField.setFont(new Font("微软雅黑", Font.BOLD, 13));
+
+        GridBagConstraints textFieldGbc = new GridBagConstraints();
+        textFieldGbc.fill = fill;
+        textFieldGbc.insets = new Insets(5, 0, 5, 5);
+        textFieldGbc.gridx = inputAddr[0];
+        textFieldGbc.gridy = inputAddr[1];
+        textFieldGbc.gridwidth = inputAddr[2];
+        textFieldGbc.gridheight = inputAddr[3];
+
+        initLabel(label, labelAddr, parentPanel);
+        parentPanel.add(textField, textFieldGbc);
+
+        return textField;
+    }
     public static JComboBox<String> initComboBox(String label, List<String> data, int[] labelAddr, int[] comboBoxAddr, JPanel parentPanel) {
         return initComboBox(label, data, labelAddr, comboBoxAddr, new Insets(5, 0, 5, 5), parentPanel);
     }

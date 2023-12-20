@@ -1,16 +1,14 @@
 package com.nocl.studentmanager.view.main.layout;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.alee.laf.menu.WebMenuItem;
 import com.alee.utils.swing.menu.MenuBarGenerator;
 import com.alee.utils.swing.menu.PopupMenuGenerator;
 import com.nocl.studentmanager.Main;
-import com.nocl.studentmanager.view.Login;
 import com.nocl.studentmanager.view.main.ddl.AddStudentInfo;
-import jdk.jfr.Frequency;
+import com.nocl.studentmanager.view.newLogin.Login;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -208,7 +206,7 @@ public class TopMenu extends JPanel {
             frame.setVisible(false);
             frame.setTitle("登录");
             frame.setResizable(false);
-            frame.setContentPane(new Login().getRoot());
+            frame.setContentPane(new Login());
             frame.setVisible(true);
         });
         exitMenuPopup.addItem("exit16", "ExitS", e -> System.exit(0));

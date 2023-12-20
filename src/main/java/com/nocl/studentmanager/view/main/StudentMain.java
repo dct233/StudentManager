@@ -19,18 +19,17 @@ public class StudentMain {
     // 左侧边栏
     public LeftMenu leftMenu;
     // 右中区域
-    public BottomMenu utilsMenu;
+    public BottomMenu bottomMenu;
     // Log区域
     public Logger logger;
 
-    private GridBagLayout MainLayout;
+    private final GridBagLayout MainLayout;
 
     public StudentMain() {
         studentXLS = new StudentXLS();
         topMenu = new TopMenu();
         leftMenu = new LeftMenu();
-        utilsMenu = new BottomMenu();
-        logger = new Logger();
+        bottomMenu = new BottomMenu();
 
         MainLayout = new GridBagLayout();
         MainLayout.columnWidths = new int[3];  // 列
@@ -48,20 +47,15 @@ public class StudentMain {
         //JScrollPane scrollPane = new JScrollPane(topMenu);
         JScrollPane scrollPane1 = new JScrollPane(leftMenu);
         JScrollPane scrollPane2 = new JScrollPane(studentXLS);
-        JScrollPane scrollPane3 = new JScrollPane(utilsMenu);
-        JScrollPane scrollPane4 = new JScrollPane(logger);
+        JScrollPane scrollPane3 = new JScrollPane(bottomMenu);
 
         Panel.add(topMenu, topMenu.getGbc(), JLayeredPane.PALETTE_LAYER);
         //Panel.add(new JPanel(), leftMenu.getGbc());
         Panel.add(scrollPane1, leftMenu.getGbc(), 1);
         Panel.add(scrollPane2, studentXLS.getGbc(), 2);
-        Panel.add(scrollPane3, utilsMenu.getGbc(), 3);
+        Panel.add(scrollPane3, bottomMenu.getGbc(), 3);
         //Panel.add(scrollPane4, logger.getGbc(), 4);
 
         return Panel;
-    }
-
-    public void resetPanel() {
-
     }
 }

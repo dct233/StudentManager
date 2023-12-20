@@ -2,18 +2,11 @@ package com.nocl.studentmanager;
 
 import com.alee.api.resource.ClassResource;
 import com.alee.laf.WebLookAndFeel;
-import com.alee.laf.menu.WebMenuItem;
 import com.alee.managers.language.Language;
 import com.alee.managers.language.LanguageManager;
 import com.alee.managers.language.data.Dictionary;
-import com.alee.managers.style.StyleManager;
-import com.alee.skin.dark.WebDarkSkin;
-import com.alee.skin.flat.FlatSkin;
-import com.alee.skin.material.MaterialSkin;
-import com.alee.skin.modena.ModenaSkin;
-import com.nocl.studentmanager.view.Login;
+import com.nocl.studentmanager.view.LoginSkin;
 import com.nocl.studentmanager.view.main.StudentMain;
-import com.nocl.studentmanager.view.main.utils.listener.TableModelListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,7 +36,7 @@ public class Main {
     public static void main(String[] args) {
         //LOGGER.debug(dao.getStudentClass("物联网信息技术"));
         SwingUtilities.invokeLater(() -> {
-            WebLookAndFeel.install();
+            WebLookAndFeel.install(LoginSkin.class);
             LanguageManager.setLanguage(new Language(new Locale("zh")));
             LanguageManager.addDictionary ( new Dictionary(
                     new ClassResource( Main.class, "resources/language.xml" )
@@ -52,31 +45,20 @@ public class Main {
 
             frame = new JFrame("学生管理系统") {{
                 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                setExtendedState(JFrame.MAXIMIZED_BOTH);
-                setSize(1600, 800);
+                setSize(350, 300);
+                setTitle("登录");
+                setLocationRelativeTo(null);
+                setResizable(false);
+                setContentPane(new com.nocl.studentmanager.view.newLogin.Login());
             }};
 
-            //frame.setContentPane(new Login().getRoot());
-            studentMain = new StudentMain();
-            frame.setContentPane(studentMain.InitMainPanel());
-            //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
             frame.setVisible(true);
+
+            // frame.setContentPane(new Login().getRoot());
+            //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frame.requestFocus();
             Main.LOGGER.debug(frame.getGraphics().getFontMetrics(frame.getFont()).stringWidth("A"));
-
-
-            System.out.println(studentMain.utilsMenu.getHeight());
-            System.out.println(studentMain.utilsMenu.getWidth());
-
-            Dimension dimension = new Dimension(studentMain.utilsMenu.getWidth() / 5, studentMain.utilsMenu.getHeight() / 3);
-            studentMain.utilsMenu.getAcademyComboBox().setPreferredSize(dimension);
-            studentMain.utilsMenu.getGenderComboBox().setPreferredSize(dimension);
-            studentMain.utilsMenu.getSpecializedComboBox().setPreferredSize(dimension);
-            studentMain.utilsMenu.getStudentClassComboBox().setPreferredSize(dimension);
-            studentMain.utilsMenu.getNameInput().setPreferredSize(dimension);
-            studentMain.utilsMenu.getAgeInput().setPreferredSize(dimension);
-            System.out.println(studentMain.topMenu.getWidth());
         });
 
 

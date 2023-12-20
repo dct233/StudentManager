@@ -14,7 +14,7 @@ public class SearchButtonListener extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
-        BottomMenu bottomMenu = Main.studentMain.utilsMenu;
+        BottomMenu bottomMenu = Main.studentMain.bottomMenu;
         Student student = new Student();
 
         if (bottomMenu.getNameInput().getText().equals("")) {

@@ -37,7 +37,7 @@ public class AddButtonListener extends MouseAdapter {
             addStudentInfo.dispose();
 
             TreePath selectionPath = Main.studentMain.leftMenu.getTree().getSelectionPath();
-
+            // 通过重置树选择节点来刷新表格
             Main.studentMain.leftMenu.getTree().clearSelection();
             Main.studentMain.leftMenu.getTree().setSelectionPath(selectionPath);
         }
