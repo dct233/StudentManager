@@ -211,6 +211,15 @@
     <delete id="deleteStudentInfo">
         delete from Student where uid = #{uid}
     </delete>
+    <update id="updateStudentName">
+        UPDATE Student SET name = #{name} where uid = #{uid}
+    </update>
+    <update id="updateStudentAge">
+        update Student SET age = #{age} where uid = #{uid}
+    </update>
+    <update id="updateStudentAddr">
+        update Student SET addr = #{addr} where uid = #{uid}
+    </update>
     <update id="updateStudentAcademy">
         UPDATE Student SET academy = #{academyName} WHERE uid = #{uid};
     </update>

@@ -7,9 +7,8 @@ import com.nocl.studentmanager.view.main.StudentMain;
 import org.apache.ibatis.session.SqlSession;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
-
+// 登录逻辑
 public class LoginBehavior {
     private final String Username;
     private final String Password;
@@ -18,7 +17,9 @@ public class LoginBehavior {
     public LoginBehavior(String Username, String Password) {
         this.Username = Username;
         this.Password = Password;
+        // 打开数据库会话
         sqlSession = ConnectDatabase.getSqlSessionFactory();
+        // 映射接口
         dao = sqlSession.getMapper(AccountDAO.class);
     }
 

@@ -4,7 +4,6 @@ import com.nocl.studentmanager.database.bean.Student;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-
 public interface StudentInfoDAO {
     List<Student> getStudentInfo(Student student);
     Integer getStudentCount(Student student);

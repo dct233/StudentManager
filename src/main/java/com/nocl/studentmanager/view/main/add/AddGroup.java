@@ -86,7 +86,7 @@ public class AddGroup extends JDialog {
                             public void mouseClicked(MouseEvent e) {
                                 super.mouseClicked(e);
                                 if (addGroupField.getText().equals("")) {
-                                    JOptionPane.showOptionDialog(thisDialog, "请填入名称并选择院校", "错误", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[]{"确定"}, null);
+                                    JOptionPane.showOptionDialog(thisDialog, "请填入院校名称", "错误", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[]{"确定"}, null);
                                     return;
                                 }
                                 if (addGroupButton.isEnabled()) {
@@ -249,6 +249,7 @@ public class AddGroup extends JDialog {
         studentClassGbc.gridwidth = 1;
         studentClassGbc.gridheight = 1;
     }
+    // 将除去选择添加组的comboBox和label全部出栈
     private void removeComponent() {
         if (addGroupField != null)
             mainPanel.remove(addGroupField);

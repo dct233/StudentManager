@@ -1,5 +1,6 @@
 package com.nocl.studentmanager.view.main.utils.listener;
 
+import com.nocl.studentmanager.Main;
 import com.nocl.studentmanager.view.main.layout.StudentXLS;
 
 import javax.swing.*;
@@ -19,18 +20,18 @@ public class TableListSelectionListener implements ListSelectionListener {
         source.removeListSelectionListener(this);
         // 每次选中表格时都备份一次旧表格, 用于查询失败时回退表格
         if (e.getValueIsAdjusting()) {
-            if (StudentXLS.tableModelListener != null) {
-                Vector<Vector> temp = new Vector<>();
+            Main.LOGGER.debug("入备份");
+            if (StudentXLS.studentTableModelListener != null) {
+                Vector<Vector<Object>> temp = new Vector<>();
 
                 for (Vector i : model.getDataVector()) {
-                    Vector<Object> forTemp = new Vector<>();
-                    forTemp.addAll(i);
+                    Vector<Object> forTemp = new Vector<Object>(i);
                     temp.add(forTemp);
                 }
 
-                model.removeTableModelListener(StudentXLS.tableModelListener);
-                StudentXLS.tableModelListener.setOldModel(temp);
-                model.addTableModelListener(StudentXLS.tableModelListener);
+                model.removeTableModelListener(StudentXLS.studentTableModelListener);
+                StudentXLS.studentTableModelListener.setOldModel(temp);
+                model.addTableModelListener(StudentXLS.studentTableModelListener);
             }
         }
         source.addListSelectionListener(this);

@@ -3,10 +3,10 @@ package com.nocl.studentmanager.view.main.utils;
 import com.nocl.studentmanager.Main;
 import com.nocl.studentmanager.database.bean.Student;
 import com.nocl.studentmanager.view.main.layout.BottomMenu;
+import com.nocl.studentmanager.view.main.layout.StudentXLS;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Objects;
 
 import static com.nocl.studentmanager.view.main.StudentMain.dao;
 
@@ -31,7 +31,15 @@ public class SearchButtonListener extends MouseAdapter {
         student.setAcademy((String) bottomMenu.getAcademyComboBox().getSelectedItem());
         student.setSpecialized((String) bottomMenu.getSpecializedComboBox().getSelectedItem());
         student.setStudentClass((String) bottomMenu.getStudentClassComboBox().getSelectedItem());
-
-        Main.studentMain.studentXLS.setModel(StudentXLSUtils.setStudentTable(dao.getStudentInfo(student), Main.studentMain.studentXLS.getModel()));
+        Main.studentMain.studentXLS.getModel().removeTableModelListener(StudentXLS.studentTableModelListener);
+        StudentXLS.minPage = 1;
+        StudentXLS.maxPage = 0;
+        StudentXLS.student = null;
+        Main.studentMain.studentXLS.getLastButton().setEnabled(false);
+        Main.studentMain.studentXLS.getNextButton().setEnabled(true);
+        Main.studentMain.studentXLS.getPage().setText(StudentXLS.minPage + " / " + (StudentXLS.maxPage + 1));
+        // 获取头50条数据并设置到table
+        Main.studentMain.studentXLS.getModel().setDataVector(StudentXLSUtils.tableDataToObjectArray(dao.getStudentIndex(student, 0, 50)), StudentXLSUtils.headerTitle);
+        Main.studentMain.studentXLS.getModel().addTableModelListener(StudentXLS.studentTableModelListener);
     }
 }

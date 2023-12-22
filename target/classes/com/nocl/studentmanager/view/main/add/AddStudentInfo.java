@@ -114,7 +114,7 @@ public class AddStudentInfo extends JDialog {
     }
 
     private void initAcademyComboBox() {
-        academyComboBox = InitComponent.initComboBox("学院", dao.getAcademy(), new int[] {0, 5, 2, 1}, new int[] {2, 5, 2, 1}, mainPanel);
+        academyComboBox = InitComponent.initComboBox("院校", dao.getAcademy(), new int[] {0, 5, 2, 1}, new int[] {2, 5, 2, 1}, mainPanel);
     }
 
     private void initSpecializedComboBox() {

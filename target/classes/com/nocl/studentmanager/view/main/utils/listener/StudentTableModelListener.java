@@ -5,6 +5,7 @@ import com.nocl.studentmanager.view.main.utils.StudentXLSUtils;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.Arrays;
@@ -13,10 +14,10 @@ import java.util.Vector;
 import static com.nocl.studentmanager.view.main.StudentMain.dao;
 import static com.nocl.studentmanager.view.main.StudentMain.sqlSession;
 
-public class TableModelListener implements javax.swing.event.TableModelListener {
+public class StudentTableModelListener implements TableModelListener {
     private DefaultTableModel model;
     private Vector<Vector> oldModel;
-    public TableModelListener(DefaultTableModel model, DefaultTableModel oldModel) {
+    public StudentTableModelListener(DefaultTableModel model) {
         this.model = model;
         this.oldModel = new Vector<>(model.getDataVector());
     }
@@ -24,28 +25,23 @@ public class TableModelListener implements javax.swing.event.TableModelListener 
     public void tableChanged(TableModelEvent e) {
         // 临时关闭当前监听, 防止监听循环导致栈溢出
         model.removeTableModelListener(this);
-        System.out.println(oldModel);
+        Main.LOGGER.debug(oldModel);
         int row = e.getFirstRow();
         int column = e.getColumn();
-        if (e.getType() == TableModelEvent.UPDATE && oldModel != null && row != -1) {
-            Integer uid = Integer.valueOf((String) model.getValueAt(row, 0));
-            String value = (String) model.getValueAt(row, column);
-            System.out.println(value);
+        Integer uid = Integer.valueOf((String) model.getValueAt(row, 0));
+        String value = (String) model.getValueAt(row, column);
+        if (e.getType() == TableModelEvent.UPDATE && oldModel != null && row != -1 && value != null) {
+            System.out.println("value: " + value);
             switch (column) {
                 case 1 -> dao.updateStudentName(uid, value);
                 case 2 -> dao.updateStudentAge(uid, Integer.valueOf(value));
                 case 3 -> {
                     // 性别
-                    if (value.equals("男") || value.equals("女") || value.equals("未知")) {
-                        dao.updateStudentGender(uid, value);
-                    } else {
-                        resetModel("不知道性别可以填未知");
-                    }
+                    dao.updateStudentGender(uid, value);
                 }
                 case 4 -> dao.updateStudentAddr(uid, value);
                 case 5 -> {
                     Integer academy = dao.getAcademyUid(value);
-                    System.out.println(academy);
                     if (academy != null) {
                         dao.updateStudentAcademy(uid, academy);
                     } else {
@@ -54,7 +50,6 @@ public class TableModelListener implements javax.swing.event.TableModelListener 
                 }
                 case 6 -> {
                     Integer specialized = dao.getSpecializedUid(value);
-                    System.out.println(specialized);
                     if (specialized != null) {
                         //dao.updateStudentAcademy(uid, value);
                         dao.updateStudentSpecialized(uid, specialized);
@@ -89,7 +84,7 @@ public class TableModelListener implements javax.swing.event.TableModelListener 
     public void setModel(DefaultTableModel model) {
         this.model = model;
     }
-    public void setOldModel(Vector<Vector> oldModel) {
+    public void setOldModel(Vector<Vector<Object>> oldModel) {
         this.oldModel = new Vector<>(oldModel);
     }
 }

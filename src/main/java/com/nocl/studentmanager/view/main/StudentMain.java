@@ -10,6 +10,7 @@ import java.awt.*;
 
 public class StudentMain {
     public JLayeredPane Panel;
+    // 用于主页面全局调用数据库接口
     public static SqlSession sqlSession = ConnectDatabase.getSqlSessionFactory();
     public static StudentInfoDAO dao = sqlSession.getMapper(StudentInfoDAO.class);
     // 表格区域
@@ -20,7 +21,7 @@ public class StudentMain {
     public LeftMenu leftMenu;
     // 右中区域
     public BottomMenu bottomMenu;
-    // Log区域
+    // Log区域, 因为日志长度问题会导致布局被挤压, 已弃用, 但仍可用于将Log4j2产生的日志重定向到前端
     public Logger logger;
 
     private final GridBagLayout MainLayout;
@@ -30,7 +31,7 @@ public class StudentMain {
         topMenu = new TopMenu();
         leftMenu = new LeftMenu();
         bottomMenu = new BottomMenu();
-
+        // 父容器布局设置
         MainLayout = new GridBagLayout();
         MainLayout.columnWidths = new int[3];  // 列
         MainLayout.rowHeights = new int[3];  // 行
@@ -42,7 +43,7 @@ public class StudentMain {
             setLayout(MainLayout);
         }};
     }
-
+    // 生成主容器提供给frame
     public JLayeredPane InitMainPanel() {
         //JScrollPane scrollPane = new JScrollPane(topMenu);
         JScrollPane scrollPane1 = new JScrollPane(leftMenu);

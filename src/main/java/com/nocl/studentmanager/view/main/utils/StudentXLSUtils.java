@@ -1,16 +1,19 @@
 package com.nocl.studentmanager.view.main.utils;
 
 import com.nocl.studentmanager.database.bean.Student;
-import com.nocl.studentmanager.view.main.utils.listener.TableModelListener;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 public class StudentXLSUtils {
     public static String[] headerTitle = {"学号", "姓名", "年龄", "性别", "地址", "学院", "专业", "班级"};
-    public static DefaultTableModel setStudentTable(List<Student> studentList, DefaultTableModel oldModel) {
-        // model.addTableModelListener(new TableModelListener(model, oldModel));
-        return new DefaultTableModel(tableDataToObjectArray(studentList), headerTitle);
+    public static DefaultTableModel setStudentTable(List<Student> studentList) {
+        return new DefaultTableModel(tableDataToObjectArray(studentList), headerTitle) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column != 0;
+            }
+        };
     }
 
     public static Object[][] tableDataToObjectArray(List<Student> studentList) {

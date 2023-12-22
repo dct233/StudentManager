@@ -3,7 +3,7 @@ package com.nocl.studentmanager.view.main.layout;
 import com.nocl.studentmanager.database.bean.Student;
 import com.nocl.studentmanager.view.main.utils.StudentXLSUtils;
 import com.nocl.studentmanager.view.main.utils.listener.TableListSelectionListener;
-import com.nocl.studentmanager.view.main.utils.listener.TableModelListener;
+import com.nocl.studentmanager.view.main.utils.listener.StudentTableModelListener;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -25,7 +25,7 @@ public class StudentXLS extends JPanel {
     public static int maxPage = 0;
     public static int minPage = 1;
     public static Student student = null;
-    public static TableModelListener tableModelListener;
+    public static StudentTableModelListener studentTableModelListener;
     public static TableListSelectionListener tableListSelectionListener;
 
     public StudentXLS() {
@@ -54,16 +54,16 @@ public class StudentXLS extends JPanel {
         if (maxPage == 0) {
             lastButton.setEnabled(false);
             nextButton.setEnabled(false);
-            model = StudentXLSUtils.setStudentTable(studentList, null);
+            model = StudentXLSUtils.setStudentTable(studentList);
         } else {
             lastButton.setEnabled(false);
             nextButton.setEnabled(true);
 
             page.setText("1 / " + (maxPage + 1));
-            model = StudentXLSUtils.setStudentTable(studentList.subList(0, 50), null);
+            model = StudentXLSUtils.setStudentTable(studentList.subList(0, 50));
         }
-        tableModelListener = new TableModelListener(model, null);
-        model.addTableModelListener(tableModelListener);
+        studentTableModelListener = new StudentTableModelListener(model);
+        model.addTableModelListener(studentTableModelListener);
         // 设置表格Model
         studentTable = new JTable(model);
         studentTable.setFont(new Font("微软雅黑", Font.PLAIN, 14));
@@ -99,16 +99,21 @@ public class StudentXLS extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
+                if (minPage == 1 && maxPage == 0) {
+                    page.setText("1 / 1");
+                    nextButton.setEnabled(false);
+                    lastButton.setEnabled(false);
+                }
                 if (minPage != maxPage) {
                     nextButton.setEnabled(true);
                 }
                 if (lastButton.isEnabled()) {
 
-                    model.removeTableModelListener(tableModelListener);
+                    model.removeTableModelListener(studentTableModelListener);
                     minPage--;
                     page.setText(minPage + " / " + (maxPage + 1));
                     model.setDataVector(StudentXLSUtils.tableDataToObjectArray(dao.getStudentIndex(student, (minPage - 1) * 50, 50)), StudentXLSUtils.headerTitle);
-                    model.addTableModelListener(tableModelListener);
+                    model.addTableModelListener(studentTableModelListener);
                     if (minPage <= 1) {
                         lastButton.setEnabled(false);
                     }
@@ -119,15 +124,20 @@ public class StudentXLS extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                if (minPage == 1 && maxPage == 0) {
+                    page.setText("1 / 1");
+                    nextButton.setEnabled(false);
+                    lastButton.setEnabled(false);
+                }
                 if (minPage > 1) {
                     lastButton.setEnabled(true);
                 }
                 if (nextButton.isEnabled()) {
-                    model.removeTableModelListener(tableModelListener);
+                    model.removeTableModelListener(studentTableModelListener);
                     minPage++;
                     page.setText(minPage + " / " + (maxPage + 1));
                     model.setDataVector(StudentXLSUtils.tableDataToObjectArray(dao.getStudentIndex(student, (minPage - 1) * 50, 50)), StudentXLSUtils.headerTitle);
-                    model.addTableModelListener(tableModelListener);
+                    model.addTableModelListener(studentTableModelListener);
                     if (minPage == maxPage + 1) {
                         nextButton.setEnabled(false);
                     }

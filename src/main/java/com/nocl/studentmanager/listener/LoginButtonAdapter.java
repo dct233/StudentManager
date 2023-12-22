@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+// 继承 MouseListener 和 KeyListener 同时监听键盘以及鼠标点击事件
 public class LoginButtonAdapter implements MouseListener, KeyListener {
     private JTextField username;
     private JTextField password;

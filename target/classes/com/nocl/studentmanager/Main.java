@@ -51,8 +51,6 @@ public class Main {
                 setResizable(false);
                 setContentPane(new com.nocl.studentmanager.view.newLogin.Login());
             }};
-
-
             frame.setVisible(true);
 
             // frame.setContentPane(new Login().getRoot());
@@ -78,8 +76,5 @@ public class Main {
                 "123",
                 "123"
         );*/
-
-        LOGGER.info("Nocl");
-
     }
 }

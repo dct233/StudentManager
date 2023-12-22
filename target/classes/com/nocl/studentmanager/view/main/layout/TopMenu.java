@@ -20,6 +20,7 @@ import static com.nocl.studentmanager.Main.frame;
 import static com.nocl.studentmanager.Main.studentMain;
 import static com.nocl.studentmanager.view.main.StudentMain.dao;
 import static com.nocl.studentmanager.view.main.StudentMain.sqlSession;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 public class TopMenu extends JPanel {
@@ -83,9 +84,13 @@ public class TopMenu extends JPanel {
 
             if (opt == JOptionPane.YES_OPTION) {
                 for (int i = rows.length - 1; i >= 0; i--) {
+                    // 获取当前行索引
                     int viewRow = rows[i];
+                    // 将前端索引转化为表格中的 model 索引
                     int modelRow = table.convertRowIndexToModel(viewRow);
+                    // 获取学号进行删除
                     dao.deleteStudentInfo(Integer.valueOf((String) model.getValueAt(modelRow, 0)));
+                    // 删除前端表格内数据
                     model.removeRow(modelRow);
                     sqlSession.commit();
                 }
@@ -214,6 +219,15 @@ public class TopMenu extends JPanel {
             frame.setResizable(false);
             frame.setContentPane(new Login());
             frame.setVisible(true);
+            JOptionPane.showOptionDialog(
+                frame, 
+                "登出成功", 
+                "登出", 
+                JOptionPane.DEFAULT_OPTION, 
+                INFORMATION_MESSAGE, 
+                null, 
+                new Object[] {"确定"},
+                null);
         });
         exitMenuPopup.addItem("exit16", "ExitS", e -> System.exit(0));
     }
